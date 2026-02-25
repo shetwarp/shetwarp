@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>shetwarp — سرور ماینکرافت</title>
+  <meta name="description" content="سرور ماینکرافت shetwarp با مودهای اختصاصی، ایونت‌های هفتگی و تجربه بازی بهینه. اتصال سریع و خرید رنک VIP، MVP و LEGEND.">
+  <meta name="keywords" content="Minecraft, سرور ماینکرافت, shetwarp, مودهای اختصاصی, VIP, MVP, LEGEND, PVP, Survival">
+  <meta name="author" content="shetwarp">
+
+  <!-- Open Graph / شبکه‌های اجتماعی -->
+  <meta property="og:title" content="shetwarp — سرور ماینکرافت">
+  <meta property="og:description" content="سرور ماینکرافت shetwarp با مودهای اختصاصی، ایونت‌های هفتگی و تجربه بازی بهینه.">
+  <meta property="og:image" content="https://yourdomain.com/logo.png">
+  <meta property="og:url" content="https://shetwarp.com">
+  <meta property="og:type" content="website">
+
+  <!-- Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "VideoGame",
+    "name": "shetwarp",
+    "url": "https://shetwarp.com",
+    "gamePlatform": "PC",
+    "description": "سرور ماینکرافت shetwarp با مودهای اختصاصی، ایونت‌های هفتگی و تجربه بازی بهینه."
+  }
+  </script>
+
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Vazirmatn:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* ...همه CSS همانطور که در نسخه اصلی بود، بدون تغییر... */
+    :root{
+      --bg-deep:#040416;
+      --neon-a:#00f6ff;
+      --neon-b:#ff3ad9;
+      --neon-c:#9b5cff;
+      --accent-weak: rgba(255,255,255,0.06);
+      --text:#eef6ff;
+      --muted: #b6bed6;
+      --glass: rgba(255,255,255,0.03);
+      --maxw:1200px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0;background:linear-gradient(180deg,var(--bg-deep),#06061a);font-family:'Vazirmatn',system-ui; color:var(--text);-webkit-font-smoothing:antialiased}
+    #bg-canvas{position:fixed;inset:0;z-index:0;display:block}
+    .bg-overlay{position:fixed;inset:0;z-index:1;pointer-events:none;background:
+      radial-gradient(800px 400px at 10% 10%, rgba(155,92,255,0.06), transparent 10%),
+      radial-gradient(700px 300px at 90% 80%, rgba(0,255,209,0.04), transparent 10%);
+      mix-blend-mode:screen}
+    .wrap{position:relative;z-index:2;max-width:var(--maxw);margin:32px auto;padding:18px}
+    header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:18px}
+    .brand{display:flex;gap:12px;align-items:center}
+    .logo{width:64px;height:64px;border-radius:14px;background:linear-gradient(135deg,var(--neon-a),var(--neon-b));display:flex;align-items:center;justify-content:center;font-family:'Orbitron';font-weight:900;color:var(--bg-deep);box-shadow:0 6px 28px rgba(155,92,255,0.14)}
+    .brand .title{font-family:'Orbitron';font-size:20px}
+    nav{display:flex;gap:8px;align-items:center}
+    nav a{color:var(--muted);text-decoration:none;padding:8px 12px;border-radius:10px;font-weight:700}
+    nav a.ghost{background:transparent;border:1px solid var(--accent-weak)}
+    nav a.primary{background:linear-gradient(90deg,var(--neon-a),var(--neon-b));color:var(--bg-deep)}
+    .hero{display:grid;grid-template-columns:1fr 360px;gap:18px;align-items:start}
+    .card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border:1px solid var(--accent-weak);padding:20px;border-radius:14px;backdrop-filter:blur(8px)}
+    .hero .main h1{font-family:'Orbitron';font-size:44px;margin:0 0 8px;line-height:1}
+    .lead{color:var(--muted);margin:8px 0 16px}
+    .actions{display:flex;gap:12px;flex-wrap:wrap}
+    .btn{padding:12px 18px;border-radius:12px;font-weight:800;text-decoration:none;display:inline-block}
+    .btn.join{background:linear-gradient(90deg,var(--neon-a),var(--neon-b));color:var(--bg-deep)}
+    .btn.discord{background:linear-gradient(90deg,var(--neon-c),var(--neon-b));color:var(--text)}
+    .row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:16px}
+    .stat{padding:12px;border-radius:12px;background:linear-gradient(90deg, rgba(255,255,255,0.02), transparent);border:1px solid rgba(255,255,255,0.03);text-align:center}
+    .stat h3{margin:6px 0 0;font-family:'Orbitron';color:var(--neon-a)}
+    .stat p{margin:6px 0 0;color:var(--muted)}
+    .shop{margin-top:18px}
+    .ranks{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px}
+    .rank{padding:12px;border-radius:12px;background:linear-gradient(90deg, rgba(155,92,255,0.06), rgba(0,255,209,0.04));border:1px solid var(--accent-weak);text-align:center}
+    .rank h4{font-family:'Orbitron';margin:6px 0;color:var(--text)}
+    .rank .price{font-weight:800;margin-top:6px;color:var(--neon-a)}
+    .rank a{display:inline-block;margin-top:8px;padding:8px 12px;border-radius:10px;background:linear-gradient(90deg,var(--neon-b),var(--neon-c));color:var(--text);text-decoration:none}
+    .grid-2{display:grid;grid-template-columns:1fr 420px;gap:12px;margin-top:18px}
+    .leaderboard{padding:12px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border:1px solid var(--accent-weak)}
+    .leaderboard table{width:100%;border-collapse:collapse;color:var(--muted);font-size:14px}
+    .leaderboard th, .leaderboard td{padding:8px;text-align:left}
+    .events{padding:12px;border-radius:12px;background:linear-gradient(90deg, rgba(0,0,0,0.12), rgba(255,255,255,0.02));border:1px solid var(--accent-weak)}
+    footer{margin-top:26px;color:var(--muted);text-align:center}
+    @media (max-width:980px){.hero{grid-template-columns:1fr}.grid-2{grid-template-columns:1fr}header{flex-direction:column;align-items:flex-start}}
+    @media (max-width:520px){.wrap{padding:12px;margin:12px}.brand .title{font-size:16px}.hero .main h1{font-size:28px}nav{width:100%;display:flex;justify-content:space-between}}
+    .glow-line{height:2px;border-radius:6px;background:linear-gradient(90deg,var(--neon-a),var(--neon-b));margin:16px 0}
+  </style>
+</head>
+<body>
+<canvas id="bg-canvas"></canvas>
+<div class="bg-overlay"></div>
+<div class="wrap">
+  <header>
+    <div class="brand">
+      <div class="logo" aria-label="لوگوی سرور shetwarp">SW</div>
+      <div>
+        <div class="title">shetwarp</div>
+        <div style="font-size:12px;color:var(--muted)">سرور Survival — تجربه‌ای لوکس</div>
+      </div>
+    </div>
+    <nav>
+      <a class="ghost" href="#features" title="بخش ویژگی‌ها">ویژگی‌ها</a>
+      <a class="ghost" href="#shop" title="بخش خرید رنک">خرید رنک</a>
+      <a class="ghost" href="#events" title="بخش رویدادها">رویدادها</a>
+      <a class="primary" href="#join" title="اتصال سریع به سرور">پیوستن</a>
+    </nav>
+  </header>
+
+  <main class="hero">
+    <section class="card main">
+      <h1>shet warp</h1>
+      <p class="lead">سروری با طراحی حرفه‌ای، مودهای اختصاصی، ایونت‌های هفتگی و اکونومی پویا. همه‌چیز برای بازی بهینه شده.</p>
+      <div class="actions">
+        <a class="btn join" href="shetwarp1.aternos.me">اتصال: shetwarp1.aternos.me</a>
+        <a class="btn discord" href="https://discord.gg/fvdKpH27">ورود به دیسکورد</a>
+        <a class="btn" style="background:transparent;border:1px solid var(--accent-weak;color:var(--muted));color:var(--muted)" href="#rules">قوانین</a>
+      </div>
+
+      <div class="glow-line"></div>
+
+      <div class="row" id="features">
+        <div class="stat"><div style="font-size:20px;color:var(--neon-a);font-weight:900">99+</div><h2 style="font-family: 'Vazirmatn' ; color: azure;">مود جدید</h2><p>هر ماه محتوا و مود تازه</p></div>
+        <div class="stat"><div style="font-size:20px;color:var(--neon-b);font-weight:900">24/7</div><h2 style="font-family: 'Vazirmatn' ; color: azure;">آپتایم</h2><p>سرور پایدار و بکاپ‌گیری روزانه</p></div>
+        <div class="stat"><div style="font-size:20px;color:var(--neon-c);font-weight:900">Low</div><h2 style="font-family: 'Vazirmatn' ; color: azure;">پینگ</h2><p>بهینه‌سازی شبکه برای پینگ کم</p></div>
+      </div>
+
+      <div class="shop" id="shop">
+        <h2 style="font-family:'Orbitron';margin:10px 0">خرید رنک</h2>
+        <div class="ranks">
+          <div class="rank"><h4>VIP</h4><p>دسترسی به کیت و امکانات فراوان</p><div class="price">30,000 تومان</div><a href="https://discord.com/channels/1428729167263826014/1428730163125948507">خرید</a></div>
+          <div class="rank"><h4>MVP</h4><p> تگ منحصر به فرد، مزایا بیشتر</p><div class="price">50,000 تومان</div><a href="https://discord.com/channels/1428729167263826014/1428730163125948507">خرید</a></div>
+          <div class="rank"><h4>LEGEND</h4><p>همه امکانات + تگ اختصاصی</p><div class="price">100,000 تومان</div><a href="https://discord.com/channels/1428729167263826014/1428730163125948507">خرید</a></div>
+        </div>
+      </div>
+
+    </section>
+
+    <aside class="card sidebar">
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:12px">
+        <div>
+          <div style="font-size:13px;color:var(--muted)">آی‌پی سرور</div>
+          <div style="font-family:'Orbitron';font-size:18px;color:var(--text);margin-top:6px">shetwarp1.aternos.me</div>
+        </div>
+      </div>
+
+      <div style="margin-top:8px;color:var(--muted);font-size:13px">نسخه: <strong style="color:var(--neon-a)">1.16.5+</strong></div>
+      <div style="margin-top:12px"><a class="btn join" href="shetwarp1.aternos.me">اتصال سریع</a></div>
+
+      <div style="margin-top:14px;font-size:13px;color:var(--muted)">حساب‌های برتر</div>
+      <div style="display:flex;gap:8px;margin-top:8px">
+        <div style="flex:1;padding:8px;border-radius:8px;background:linear-gradient(90deg, rgba(255,255,255,0.02), transparent);text-align:center">YASIN1298</div>
+        <div style="flex:1;padding:8px;border-radius:8px;background:linear-gradient(90deg, rgba(255,255,255,0.02), transparent);text-align:center">amirgamec</div>
+      </div>
+
+      <div style="margin-top:12px;font-size:13px;color:var(--muted)">لینک‌ها</div>
+      <div style="display:flex;gap:8px;margin-top:8px">
+        <a href="https://discord.gg/fvdKpH27" style="padding:8px;border-radius:8px;background:linear-gradient(90deg,var(--neon-a),var(--neon-b));color:var(--bg-deep);text-decoration:none;font-weight:800">دیسکورد</a>
+        <a href="https://wa.me/989913270535" target="_blank" style="padding:8px;border-radius:8px;background:linear-gradient(90deg,var(--neon-c),var(--neon-b));color:var(--text);text-decoration:none;font-weight:800">واتساپ</a>
+      </div>
+    </aside>
+  </main>
+
+  <section class="grid-2">
+    <div class="leaderboard card">
+      <h2 style="font-family:'Orbitron'">جدول برترین بازیکنان</h2>
+      <table>
+        <thead><tr><th>#</th><th>بازیکن</th><th>امتیاز</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>YASIN1298</td><td>12,400</td></tr>
+          <tr><td>2</td><td>amirgamec</td><td>11,750</td></tr>
+          <tr><td>3</td><td>mohamadhkop</td><td>10,900</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="events card" id="events">
+      <h2 style="font-family:'Orbitron'">رویدادهای نزدیک</h2>
+      <ul style="padding-left:14px;color:var(--muted);line-height:1.6">
+        <li>جمعه — مسابقه PVP (جایزه: ۵۰k)</li>
+        <li>یکشنبه — اسکین شو و انتخاب بهترین بازیکن</li>
+        <li>سه‌شنبه — ایونت اکتشاف نقشه</li>
+      </ul>
+      <div style="margin-top:10px"><a class="btn discord" href="#">عضویت در ایونت‌ها</a></div>
+    </div>
+  </section>
+
+  <section style="margin-top:18px" class="card" id="rules">
+    <h2 style="font-family:'Orbitron'">قوانین کوتاه</h2>
+    <ol style="color:var(--muted);line-height:1.7">
+      <li>رفتار محترمانه — ۰ تحمل توهین</li>
+      <li>استفاده از چیت ممنوع و موجب اخراج می‌شود</li>
+      <li>تبلیغ بدون اجازه ممنوع است</li>
+    </ol>
+  </section>
+
+  <footer>© 2025 shetwarp — با انتخاب سروری عالی ارزش خودتون رو حفظ کنید.</footer>
+</div>
+
+  <script>
+    // Animated background code (همون کد اصلی توی js که داشتی)
+    const canvas = document.getElementById('bg-canvas');
+    const ctx = canvas.getContext('2d');
+    let W = canvas.width = innerWidth; let H = canvas.height = innerHeight;
+    window.addEventListener('resize', ()=>{W=canvas.width=innerWidth;H=canvas.height=innerHeight; initParticles();});
+
+    let particles = [];
+    function rand(a,b){return Math.random()*(b-a)+a}
+    function initParticles(){
+      particles = [];
+      const count = Math.floor(Math.max(40, (W*H)/90000));
+      for(let i=0;i<count;i++) particles.push({x:rand(0,W),y:rand(0,H),vx:rand(-0.4,0.4),vy:rand(-0.4,0.4),r:rand(0.6,3),h:rand(160,320)});
+    }
+    initParticles();
+
+    const stars = [];
+    const starCount = 120;
+    for(let i=0;i<starCount;i++) stars.push({x:Math.random()*W,y:Math.random()*H,r:Math.random()*1.8,alpha:rand(0.1,0.9)});
+
+    let t=0;
+    function drawGrid(t){
+      const spacing = 60;
+      ctx.save();
+      ctx.lineWidth = 1;
+      for(let x = -spacing*2; x < W + spacing*2; x += spacing){
+        const shift = Math.sin((t/8000) + x/400) * 20;
+        ctx.strokeStyle = 'rgba(120,90,255,0.04)';
+        ctx.beginPath();
+        ctx.moveTo(x+shift,0);
+        ctx.lineTo(x-shift,H);
+        ctx.stroke();
+      }
+      for(let y = -spacing*2; y < H + spacing*2; y += spacing){
+        const shift = Math.cos((t/7000) + y/400) * 20;
+        ctx.strokeStyle = 'rgba(0,255,210,0.03)';
+        ctx.beginPath();
+        ctx.moveTo(0,y+shift);
+        ctx.lineTo(W,y-shift);
+        ctx.stroke();
+      }
+      ctx.restore();
+    }
+
+    function loop(ts){
+      t = ts;
+      ctx.clearRect(0,0,W,H);
+
+      const g = ctx.createLinearGradient(0,0,W,H);
+      g.addColorStop(0,'rgba(155,92,255,0.03)');g.addColorStop(0.6,'rgba(0,255,209,0.02)');g.addColorStop(1,'rgba(10,10,30,0.6)');
+      ctx.fillStyle = g;ctx.fillRect(0,0,W,H);
+
+      drawGrid(ts);
+
+      for(let s of stars){
+        ctx.beginPath();ctx.globalAlpha = s.alpha * (0.6 + 0.4*Math.sin((ts/1200)+s.x));
+        const rg = ctx.createRadialGradient(s.x,s.y,0,s.x,s.y,10);
+        rg.addColorStop(0,'rgba(255,255,255,0.9)');rg.addColorStop(1,'rgba(255,255,255,0)');
+        ctx.fillStyle = rg;ctx.arc(s.x,s.y,s.r,0,Math.PI*2);ctx.fill();ctx.globalAlpha=1;
+      }
+
+      for(let p of particles){
+        p.x += p.vx; p.y += p.vy;
+        if(p.x < -20) p.x = W+20; if(p.x > W+20) p.x = -20; if(p.y < -20) p.y = H+20; if(p.y > H+20) p.y = -20;
+        const grd = ctx.createRadialGradient(p.x,p.y,0,p.x,p.y,p.r*6);
+        grd.addColorStop(0, `hsla(${p.h},85%,60%,0.9)`);
+        grd.addColorStop(1, `hsla(${p.h},85%,60%,0)`);
+        ctx.fillStyle = grd; ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2); ctx.fill();
+      }
+
+      ctx.beginPath();
+      for(let i=0;i<particles.length;i++){
+        for(let j=i+1;j<particles.length;j++){
+          const a = particles[i], b = particles[j];
+          const dx = a.x-b.x, dy = a.y-b.y; const d = Math.sqrt(dx*dx+dy*dy);
+          if(d<140){ ctx.strokeStyle = `rgba(155,92,255,${0.08*(1-d/140)})`; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y); ctx.stroke(); }
+        }
+      }
+
+      const vig = ctx.createLinearGradient(0,0,0,H); vig.addColorStop(0,'rgba(0,0,0,0)'); vig.addColorStop(1,'rgba(0,0,0,0.3)'); ctx.fillStyle=vig; ctx.fillRect(0,0,W,H);
+
+      requestAnimationFrame(loop);
+    }
+    requestAnimationFrame(loop);
+
+    if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+      ctx.clearRect(0,0,W,H);
+      for(let p of particles){ const grd = ctx.createRadialGradient(p.x,p.y,0,p.x,p.y,p.r*6); grd.addColorStop(0,'rgba(120,90,255,0.9)'); grd.addColorStop(1,'rgba(120,90,255,0)'); ctx.fillStyle=grd; ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2); ctx.fill(); }
+    }
+
+  </script>
+</body>
+</html>
