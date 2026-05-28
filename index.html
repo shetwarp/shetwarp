@@ -1,293 +1,656 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
-  <meta name="google-site-verification" content="lQ7KKCTBEB0Rr2WUzuLdkiTI0TXenFWeTEr8zMgk9Zg" />
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>shetwarp — سرور ماینکرافت</title>
-  <meta name="description" content="سرور ماینکرافت shetwarp با مودهای اختصاصی، ایونت‌های هفتگی و تجربه بازی بهینه. اتصال سریع و خرید رنک VIP، MVP و LEGEND.">
-  <meta name="keywords" content="Minecraft, سرور ماینکرافت, shetwarp, مودهای اختصاصی, VIP, MVP, LEGEND, PVP, Survival">
-  <meta name="author" content="shetwarp">
-
-  <!-- Open Graph / شبکه‌های اجتماعی -->
-  <meta property="og:title" content="shetwarp — سرور ماینکرافت">
-  <meta property="og:description" content="سرور ماینکرافت shetwarp با مودهای اختصاصی، ایونت‌های هفتگی و تجربه بازی بهینه.">
-  <meta property="og:image" content="https://yourdomain.com/logo.png">
-  <meta property="og:url" content="https://shetwarp.com">
-  <meta property="og:type" content="website">
-
-  <!-- Structured Data -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "VideoGame",
-    "name": "shetwarp",
-    "url": "https://shetwarp.com",
-    "gamePlatform": "PC",
-    "description": "سرور ماینکرافت shetwarp با مودهای اختصاصی، ایونت‌های هفتگی و تجربه بازی بهینه."
-  }
-  </script>
-
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Vazirmatn:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>shetwarp | سرور ماینکرفت</title>
+  <meta name="description" content="سایت رسمی سرور ماینکرفت shetwarp با طراحی مدرن و ریسپانسیو" />
   <style>
-    /* ...همه CSS همانطور که در نسخه اصلی بود، بدون تغییر... */
     :root{
-      --bg-deep:#040416;
-      --neon-a:#00f6ff;
-      --neon-b:#ff3ad9;
-      --neon-c:#9b5cff;
-      --accent-weak: rgba(255,255,255,0.06);
-      --text:#eef6ff;
-      --muted: #b6bed6;
-      --glass: rgba(255,255,255,0.03);
-      --maxw:1200px;
+      --bg:#07111f;
+      --bg2:#0b1b30;
+      --card:rgba(14, 24, 43, .68);
+      --card2:rgba(10, 18, 32, .82);
+      --line:rgba(255,255,255,.08);
+      --text:#eef5ff;
+      --muted:#a5b4c7;
+      --primary:#36d4ff;
+      --primary2:#7c5cff;
+      --success:#3cff9a;
+      --danger:#ff4d6d;
+      --shadow:0 18px 50px rgba(0,0,0,.35);
+      --radius:24px;
+      --radius-sm:16px;
+      --max:1200px;
     }
+
     *{box-sizing:border-box}
-    html,body{height:100%;margin:0;background:linear-gradient(180deg,var(--bg-deep),#06061a);font-family:'Vazirmatn',system-ui; color:var(--text);-webkit-font-smoothing:antialiased}
-    #bg-canvas{position:fixed;inset:0;z-index:0;display:block}
-    .bg-overlay{position:fixed;inset:0;z-index:1;pointer-events:none;background:
-      radial-gradient(800px 400px at 10% 10%, rgba(155,92,255,0.06), transparent 10%),
-      radial-gradient(700px 300px at 90% 80%, rgba(0,255,209,0.04), transparent 10%);
-      mix-blend-mode:screen}
-    .wrap{position:relative;z-index:2;max-width:var(--maxw);margin:32px auto;padding:18px}
-    header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:18px}
-    .brand{display:flex;gap:12px;align-items:center}
-    .logo{width:64px;height:64px;border-radius:14px;background:linear-gradient(135deg,var(--neon-a),var(--neon-b));display:flex;align-items:center;justify-content:center;font-family:'Orbitron';font-weight:900;color:var(--bg-deep);box-shadow:0 6px 28px rgba(155,92,255,0.14)}
-    .brand .title{font-family:'Orbitron';font-size:20px}
-    nav{display:flex;gap:8px;align-items:center}
-    nav a{color:var(--muted);text-decoration:none;padding:8px 12px;border-radius:10px;font-weight:700}
-    nav a.ghost{background:transparent;border:1px solid var(--accent-weak)}
-    nav a.primary{background:linear-gradient(90deg,var(--neon-a),var(--neon-b));color:var(--bg-deep)}
-    .hero{display:grid;grid-template-columns:1fr 360px;gap:18px;align-items:start}
-    .card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border:1px solid var(--accent-weak);padding:20px;border-radius:14px;backdrop-filter:blur(8px)}
-    .hero .main h1{font-family:'Orbitron';font-size:44px;margin:0 0 8px;line-height:1}
-    .lead{color:var(--muted);margin:8px 0 16px}
-    .actions{display:flex;gap:12px;flex-wrap:wrap}
-    .btn{padding:12px 18px;border-radius:12px;font-weight:800;text-decoration:none;display:inline-block}
-    .btn.join{background:linear-gradient(90deg,var(--neon-a),var(--neon-b));color:var(--bg-deep)}
-    .btn.discord{background:linear-gradient(90deg,var(--neon-c),var(--neon-b));color:var(--text)}
-    .row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:16px}
-    .stat{padding:12px;border-radius:12px;background:linear-gradient(90deg, rgba(255,255,255,0.02), transparent);border:1px solid rgba(255,255,255,0.03);text-align:center}
-    .stat h3{margin:6px 0 0;font-family:'Orbitron';color:var(--neon-a)}
-    .stat p{margin:6px 0 0;color:var(--muted)}
-    .shop{margin-top:18px}
-    .ranks{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px}
-    .rank{padding:12px;border-radius:12px;background:linear-gradient(90deg, rgba(155,92,255,0.06), rgba(0,255,209,0.04));border:1px solid var(--accent-weak);text-align:center}
-    .rank h4{font-family:'Orbitron';margin:6px 0;color:var(--text)}
-    .rank .price{font-weight:800;margin-top:6px;color:var(--neon-a)}
-    .rank a{display:inline-block;margin-top:8px;padding:8px 12px;border-radius:10px;background:linear-gradient(90deg,var(--neon-b),var(--neon-c));color:var(--text);text-decoration:none}
-    .grid-2{display:grid;grid-template-columns:1fr 420px;gap:12px;margin-top:18px}
-    .leaderboard{padding:12px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border:1px solid var(--accent-weak)}
-    .leaderboard table{width:100%;border-collapse:collapse;color:var(--muted);font-size:14px}
-    .leaderboard th, .leaderboard td{padding:8px;text-align:left}
-    .events{padding:12px;border-radius:12px;background:linear-gradient(90deg, rgba(0,0,0,0.12), rgba(255,255,255,0.02));border:1px solid var(--accent-weak)}
-    footer{margin-top:26px;color:var(--muted);text-align:center}
-    @media (max-width:980px){.hero{grid-template-columns:1fr}.grid-2{grid-template-columns:1fr}header{flex-direction:column;align-items:flex-start}}
-    @media (max-width:520px){.wrap{padding:12px;margin:12px}.brand .title{font-size:16px}.hero .main h1{font-size:28px}nav{width:100%;display:flex;justify-content:space-between}}
-    .glow-line{height:2px;border-radius:6px;background:linear-gradient(90deg,var(--neon-a),var(--neon-b));margin:16px 0}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      font-family:Tahoma, Arial, sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(54,212,255,.16), transparent 30%),
+        radial-gradient(circle at top right, rgba(124,92,255,.14), transparent 28%),
+        linear-gradient(180deg, #050b14 0%, var(--bg) 28%, #060c16 100%);
+      color:var(--text);
+      overflow-x:hidden;
+    }
+
+    a{color:inherit;text-decoration:none}
+    .container{
+      width:min(var(--max), calc(100% - 32px));
+      margin:auto;
+    }
+
+    .topbar{
+      position:fixed;
+      top:16px;
+      right:0;
+      left:0;
+      z-index:50;
+      pointer-events:none;
+    }
+    .nav{
+      pointer-events:auto;
+      width:min(var(--max), calc(100% - 32px));
+      margin:auto;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      padding:14px 18px;
+      border:1px solid var(--line);
+      background:rgba(6, 12, 22, .72);
+      backdrop-filter:blur(16px);
+      border-radius:999px;
+      box-shadow:var(--shadow);
+    }
+    .brand{
+      display:flex;align-items:center;gap:12px;font-weight:800
+    }
+    .logo{
+      width:42px;height:42px;border-radius:14px;
+      background:linear-gradient(135deg,var(--primary),var(--primary2));
+      display:grid;place-items:center;
+      box-shadow:0 0 30px rgba(54,212,255,.28);
+      font-size:20px;
+    }
+    .brand small{display:block;color:var(--muted);font-weight:400;font-size:12px;margin-top:2px}
+    .nav-links{
+      display:flex;align-items:center;gap:18px;
+      color:var(--muted);
+      font-size:14px;
+    }
+    .nav-links a{transition:.25s}
+    .nav-links a:hover{color:var(--text)}
+    .btn{
+      border:none;
+      cursor:pointer;
+      padding:12px 18px;
+      border-radius:999px;
+      color:#04111e;
+      background:linear-gradient(135deg,var(--primary),#7cf7ff);
+      font-weight:800;
+      box-shadow:0 12px 30px rgba(54,212,255,.22);
+      transition:.25s ease;
+    }
+    .btn:hover{transform:translateY(-2px) scale(1.01)}
+    .btn.secondary{
+      background:transparent;
+      color:var(--text);
+      border:1px solid var(--line);
+      box-shadow:none;
+    }
+
+    .hero{
+      padding:140px 0 60px;
+      position:relative;
+    }
+    .hero-grid{
+      display:grid;
+      grid-template-columns:1.2fr .8fr;
+      gap:24px;
+      align-items:stretch;
+    }
+    .hero-card, .glass-card{
+      background:linear-gradient(180deg, rgba(18, 29, 50, .78), rgba(8, 14, 26, .78));
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      backdrop-filter:blur(18px);
+    }
+    .hero-card{
+      padding:32px;
+      overflow:hidden;
+      position:relative;
+      min-height:440px;
+    }
+    .hero-card::after{
+      content:"";
+      position:absolute;
+      inset:auto -120px -120px auto;
+      width:280px;height:280px;
+      background:radial-gradient(circle, rgba(54,212,255,.22), transparent 65%);
+      filter:blur(8px);
+      pointer-events:none;
+    }
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:8px 14px;
+      border-radius:999px;
+      background:rgba(255,255,255,.06);
+      border:1px solid var(--line);
+      color:var(--muted);
+      font-size:13px;
+      margin-bottom:18px;
+    }
+    .badge i{
+      width:10px;height:10px;border-radius:50%;
+      background:var(--success);
+      box-shadow:0 0 16px rgba(60,255,154,.75);
+      display:inline-block;
+    }
+    h1{
+      margin:0 0 16px;
+      font-size:clamp(34px, 6vw, 62px);
+      line-height:1.12;
+      letter-spacing:-.5px;
+    }
+    .gradient{
+      background:linear-gradient(135deg, #fff, #88e9ff 35%, #a891ff 80%);
+      -webkit-background-clip:text;
+      background-clip:text;
+      color:transparent;
+    }
+    .lead{
+      color:var(--muted);
+      font-size:16px;
+      line-height:1.9;
+      max-width:58ch;
+      margin-bottom:24px;
+    }
+    .hero-actions{
+      display:flex;flex-wrap:wrap;gap:12px;align-items:center;
+      margin-bottom:28px;
+    }
+    .stats-row{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:14px;
+      margin-top:auto;
+    }
+    .stat{
+      padding:16px;
+      border-radius:18px;
+      background:rgba(255,255,255,.04);
+      border:1px solid var(--line);
+    }
+    .stat strong{
+      display:block;
+      font-size:22px;
+      margin-bottom:6px;
+    }
+    .stat span{color:var(--muted);font-size:13px}
+
+    .side-card{
+      padding:22px;
+      display:flex;
+      flex-direction:column;
+      gap:16px;
+    }
+    .server-panel{
+      padding:22px;
+      border-radius:22px;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+      border:1px solid var(--line);
+    }
+    .server-top{
+      display:flex;justify-content:space-between;align-items:center;gap:12px;
+      margin-bottom:14px;
+    }
+    .server-top h3{margin:0;font-size:18px}
+    .status{
+      display:inline-flex;align-items:center;gap:8px;
+      padding:8px 12px;border-radius:999px;
+      background:rgba(60,255,154,.12);
+      color:#9dffd0;
+      border:1px solid rgba(60,255,154,.15);
+      font-size:13px;
+    }
+    .ip-box{
+      display:flex;align-items:center;justify-content:space-between;gap:12px;
+      padding:16px;
+      border-radius:18px;
+      background:rgba(0,0,0,.2);
+      border:1px solid var(--line);
+      margin:14px 0;
+    }
+    .ip-box code{
+      font-size:16px;
+      color:#dff7ff;
+      word-break:break-all;
+    }
+    .copy-msg{
+      margin-top:10px;
+      color:var(--success);
+      font-size:13px;
+      min-height:18px;
+    }
+    .mini-list{
+      display:grid;
+      gap:10px;
+      margin-top:8px;
+    }
+    .mini-item{
+      display:flex;align-items:center;gap:12px;
+      padding:14px 14px;
+      border-radius:16px;
+      background:rgba(255,255,255,.04);
+      border:1px solid var(--line);
+      color:var(--muted);
+      font-size:14px;
+    }
+    .mini-icon{
+      width:38px;height:38px;border-radius:14px;
+      background:linear-gradient(135deg, rgba(54,212,255,.2), rgba(124,92,255,.2));
+      display:grid;place-items:center;
+      color:var(--text);
+      flex:0 0 auto;
+    }
+
+    section{
+      padding:24px 0;
+    }
+    .section-title{
+      margin:0 0 16px;
+      font-size:28px;
+    }
+    .section-sub{
+      margin:0 0 22px;
+      color:var(--muted);
+      line-height:1.9;
+    }
+
+    .about-grid, .gamemodes-grid, .steps-grid{
+      display:grid;
+      gap:18px;
+    }
+    .about-grid{grid-template-columns:repeat(3,1fr)}
+    .card{
+      padding:22px;
+      border-radius:var(--radius);
+      background:var(--card);
+      border:1px solid var(--line);
+      box-shadow:var(--shadow);
+    }
+    .card h3{margin:10px 0 10px}
+    .card p{margin:0;color:var(--muted);line-height:1.9}
+    .icon{
+      width:54px;height:54px;border-radius:18px;
+      display:grid;place-items:center;
+      background:linear-gradient(135deg, rgba(54,212,255,.15), rgba(124,92,255,.15));
+      border:1px solid var(--line);
+      font-size:22px;
+    }
+
+    .gamemodes-grid{
+      grid-template-columns:repeat(3,1fr);
+    }
+    .mode{
+      overflow:hidden;
+      position:relative;
+    }
+    .mode .tag{
+      display:inline-block;
+      padding:7px 12px;
+      border-radius:999px;
+      font-size:12px;
+      background:rgba(255,255,255,.06);
+      border:1px solid var(--line);
+      color:var(--muted);
+      margin-bottom:14px;
+    }
+    .mode h3{margin:0 0 10px}
+    .mode .desc{min-height:58px}
+    .mode .bottom{
+      display:flex;justify-content:space-between;align-items:center;gap:12px;
+      margin-top:18px;padding-top:16px;border-top:1px solid var(--line);
+      color:var(--muted);font-size:14px;
+    }
+    .offline{
+      color:#ff9cad;
+      font-weight:700;
+    }
+
+    .info-grid{
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      gap:14px;
+    }
+    .info{
+      text-align:center;
+      padding:20px 14px;
+    }
+    .info strong{
+      display:block;font-size:28px;margin-bottom:8px;
+      background:linear-gradient(135deg,#fff,#8eeeff);
+      -webkit-background-clip:text;
+      background-clip:text;
+      color:transparent;
+    }
+    .info span{color:var(--muted);font-size:14px}
+
+    .steps-grid{grid-template-columns:repeat(4,1fr)}
+    .step{
+      position:relative;
+      padding-top:26px;
+    }
+    .step .num{
+      width:44px;height:44px;border-radius:16px;
+      display:grid;place-items:center;
+      background:linear-gradient(135deg,var(--primary),var(--primary2));
+      color:#04111e;
+      font-weight:900;
+      margin-bottom:14px;
+    }
+    .step h4{margin:0 0 8px}
+    .step p{margin:0;color:var(--muted);line-height:1.8}
+
+    .footer{
+      padding:40px 0 50px;
+      color:var(--muted);
+      text-align:center;
+    }
+
+    @media (max-width: 992px){
+      .hero-grid, .about-grid, .gamemodes-grid, .steps-grid, .info-grid{
+        grid-template-columns:1fr 1fr;
+      }
+      .hero-card{min-height:auto}
+    }
+    @media (max-width: 720px){
+      .nav{
+        border-radius:24px;
+        padding:14px;
+      }
+      .nav-links{
+        display:none;
+      }
+      .hero{
+        padding-top:118px;
+      }
+      .hero-grid, .about-grid, .gamemodes-grid, .steps-grid, .info-grid{
+        grid-template-columns:1fr;
+      }
+      .stats-row{
+        grid-template-columns:1fr;
+      }
+      .hero-card, .card, .server-panel{
+        padding:18px;
+      }
+      h1{font-size:clamp(30px, 10vw, 46px)}
+    }
+
+    .glow{
+      position:absolute;
+      inset:auto auto 10% 8%;
+      width:220px;height:220px;border-radius:50%;
+      background:radial-gradient(circle, rgba(124,92,255,.16), transparent 65%);
+      filter:blur(8px);
+      pointer-events:none;
+    }
   </style>
 </head>
 <body>
-<canvas id="bg-canvas"></canvas>
-<div class="bg-overlay"></div>
-<div class="wrap">
-  <header>
-    <div class="brand">
-      <div class="logo" aria-label="لوگوی سرور shetwarp">SW</div>
-      <div>
-        <div class="title">shetwarp</div>
-        <div style="font-size:12px;color:var(--muted)">سرور Survival — تجربه‌ای لوکس</div>
-      </div>
-    </div>
-    <nav>
-      <a class="ghost" href="#features" title="بخش ویژگی‌ها">ویژگی‌ها</a>
-      <a class="ghost" href="#shop" title="بخش خرید رنک">خرید رنک</a>
-      <a class="ghost" href="#events" title="بخش رویدادها">رویدادها</a>
-      <a class="primary" href="#join" title="اتصال سریع به سرور">پیوستن</a>
-    </nav>
-  </header>
 
-  <main class="hero">
-    <section class="card main">
-      <h1>shet warp</h1>
-      <p class="lead">سروری با طراحی حرفه‌ای، مودهای اختصاصی، ایونت‌های هفتگی و اکونومی پویا. همه‌چیز برای بازی بهینه شده.</p>
-      <div class="actions">
-        <a class="btn join" href="shetwarp1.aternos.me">اتصال: shetwarp1.aternos.me</a>
-        <a class="btn discord" href="https://discord.gg/fvdKpH27">ورود به دیسکورد</a>
-        <a class="btn" style="background:transparent;border:1px solid var(--accent-weak;color:var(--muted));color:var(--muted)" href="#rules">قوانین</a>
-      </div>
-
-      <div class="glow-line"></div>
-
-      <div class="row" id="features">
-        <div class="stat"><div style="font-size:20px;color:var(--neon-a);font-weight:900">99+</div><h2 style="font-family: 'Vazirmatn' ; color: azure;">مود جدید</h2><p>هر ماه محتوا و مود تازه</p></div>
-        <div class="stat"><div style="font-size:20px;color:var(--neon-b);font-weight:900">24/7</div><h2 style="font-family: 'Vazirmatn' ; color: azure;">آپتایم</h2><p>سرور پایدار و بکاپ‌گیری روزانه</p></div>
-        <div class="stat"><div style="font-size:20px;color:var(--neon-c);font-weight:900">Low</div><h2 style="font-family: 'Vazirmatn' ; color: azure;">پینگ</h2><p>بهینه‌سازی شبکه برای پینگ کم</p></div>
-      </div>
-
-      <div class="shop" id="shop">
-        <h2 style="font-family:'Orbitron';margin:10px 0">خرید رنک</h2>
-        <div class="ranks">
-          <div class="rank"><h4>VIP</h4><p>دسترسی به کیت و امکانات فراوان</p><div class="price">30,000 تومان</div><a href="https://discord.com/channels/1428729167263826014/1428730163125948507">خرید</a></div>
-          <div class="rank"><h4>MVP</h4><p> تگ منحصر به فرد، مزایا بیشتر</p><div class="price">50,000 تومان</div><a href="https://discord.com/channels/1428729167263826014/1428730163125948507">خرید</a></div>
-          <div class="rank"><h4>LEGEND</h4><p>همه امکانات + تگ اختصاصی</p><div class="price">100,000 تومان</div><a href="https://discord.com/channels/1428729167263826014/1428730163125948507">خرید</a></div>
+  <div class="topbar">
+    <div class="nav">
+      <div class="brand">
+        <div class="logo">⛏</div>
+        <div>
+          Shetwarp
+          <small>سرور ماینکرفت فارسی</small>
         </div>
       </div>
+      <div class="nav-links">
+        <a href="#about">درباره</a>
+        <a href="#modes">گیم‌مودها</a>
+        <a href="#connect">اتصال</a>
+        <a href="#status">وضعیت</a>
+      </div>
+      <a class="btn secondary" href="#connect">شروع</a>
+    </div>
+  </div>
 
+  <main>
+    <section class="hero">
+      <div class="container hero-grid">
+        <div class="hero-card">
+          <div class="glow"></div>
+          <div class="badge"><i></i> 24/7 آنلاین و آماده بازی</div>
+          <h1>بهترین تجربه‌ی <span class="gradient">ماینکرفت</span> برای بازیکن‌های فارسی</h1>
+          <p class="lead">
+            سرور شت وارپ سروری متنوع و جدید میدونیم که این توضیح رو خیلی شنیدید اما این بار فرق داره برای تجربه ای بی همتا
+           
+          </p>
+          <div class="hero-actions">
+            <a class="btn" href="#connect">اتصال به سرور</a>
+            <a class="btn secondary" href="#modes">مشاهده گیم‌مودها</a>
+          </div>
+
+          <div class="stats-row">
+            <div class="stat">
+              <strong>24/7</strong>
+              <span>آنلاین</span>
+            </div>
+            <div class="stat">
+              <strong>0.9ms</strong>
+              <span>پینگ نمونه</span>
+            </div>
+            <div class="stat">
+              <strong>+5</strong>
+              <span>گیم مود فعال /غیر فعال</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="side-card glass-card" id="status">
+          <div class="server-panel">
+            <div class="server-top">
+              <h3>وضعیت سرور</h3>
+              <span class="status">● آنلاین</span>
+            </div>
+            <div class="ip-box">
+              <code id="ipText"></code>
+              <button class="btn secondary" onclick="copyIP()">کپی IP</button>
+            </div>
+            <div class="copy-msg" id="copyMsg"></div>
+            <div class="mini-list">
+              <div class="mini-item"><div class="mini-icon">⚡</div>پلاگین های اختصاصی</div>
+              <div class="mini-item"><div class="mini-icon">🛡</div>سروری متنوع</div>
+              <div class="mini-item"><div class="mini-icon">📶</div> پینگ پایین و ثابت</div>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
 
-    <aside class="card sidebar">
-      <div style="display:flex;align-items:center;justify-content:space-between;gap:12px">
-        <div>
-          <div style="font-size:13px;color:var(--muted)">آی‌پی سرور</div>
-          <div style="font-family:'Orbitron';font-size:18px;color:var(--text);margin-top:6px">shetwarp1.aternos.me</div>
+    <section id="about">
+      <div class="container">
+        <h2 class="section-title">درباره سرور</h2>
+        <p class="section-sub">
+           بچه ها سرور فعلا اماده نشده و بزودی اماده میشه ایپی که الان گذاشتیم یه ایپی من در اوردیه و اصلا واقعی نیست 
+        </p>
+
+        <div class="about-grid">
+          <div class="card">
+            <div class="icon">🎯</div>
+            <h3>چشم‌انداز</h3>
+            <p>ساخت یک جامعه‌ی فعال و صمیمی برای بازیکن‌ها، با تجربه‌ای حرفه‌ای و متفاوت.</p>
+          </div>
+          <div class="card">
+            <div class="icon">🌍</div>
+            <h3>دنیای بازی</h3>
+            <p>ترکیب نقش‌آفرینی، بقا، اسکای‌ماین و مینی‌گیم‌ها برای همه‌ی سلیقه‌ها.</p>
+          </div>
+          <div class="card">
+            <div class="icon">🤝</div>
+            <h3>ارزش‌ها</h3>
+            <p>احترام، نظم، همکاری و رشد مداوم برای ساختن یک تجربه‌ی جذاب و ماندگار.</p>
+          </div>
         </div>
       </div>
+    </section>
 
-      <div style="margin-top:8px;color:var(--muted);font-size:13px">نسخه: <strong style="color:var(--neon-a)">1.16.5+</strong></div>
-      <div style="margin-top:12px"><a class="btn join" href="shetwarp1.aternos.me">اتصال سریع</a></div>
-
-      <div style="margin-top:14px;font-size:13px;color:var(--muted)">حساب‌های برتر</div>
-      <div style="display:flex;gap:8px;margin-top:8px">
-        <div style="flex:1;padding:8px;border-radius:8px;background:linear-gradient(90deg, rgba(255,255,255,0.02), transparent);text-align:center">YASIN1298</div>
-        <div style="flex:1;padding:8px;border-radius:8px;background:linear-gradient(90deg, rgba(255,255,255,0.02), transparent);text-align:center">amirgamec</div>
+    <section>
+      <div class="container">
+        <div class="info-grid">
+          <div class="card info">
+            <strong>24/7</strong>
+            <span>پشتیبانی آنلاین</span>
+          </div>
+          <div class="card info">
+            <strong>99.9%</strong>
+            <span>آپ‌تایم سرور</span>
+          </div>
+          <div class="card info">
+            <strong>0</strong>
+            <span>پلاگین های اضافه</span>
+          </div>
+          <div class="card info">
+            <strong>∞</strong>
+            <span>پلاگین های اختصاصی</span>
+          </div>
+        </div>
       </div>
+    </section>
 
-      <div style="margin-top:12px;font-size:13px;color:var(--muted)">لینک‌ها</div>
-      <div style="display:flex;gap:8px;margin-top:8px">
-        <a href="https://discord.gg/fvdKpH27" style="padding:8px;border-radius:8px;background:linear-gradient(90deg,var(--neon-a),var(--neon-b));color:var(--bg-deep);text-decoration:none;font-weight:800">دیسکورد</a>
-        <a href="https://wa.me/989913270535" target="_blank" style="padding:8px;border-radius:8px;background:linear-gradient(90deg,var(--neon-c),var(--neon-b));color:var(--text);text-decoration:none;font-weight:800">واتساپ</a>
+
+    
+
+    <section id="modes">
+      <div class="container">
+        <h2 class="section-title">گیم‌مودهای سرور</h2>
+        <p class="section-sub">متاسفانه به خاطر شرایط حال حاضر سرور مجازیم مون بشدت ضغیفه و فقط تونستیم گیم مود سرواویل رو به شما اراعه بدیم</p>
+
+        <div class="gamemodes-grid">
+          <div class="card mode">
+            <span class="tag">Game Mode</span>
+            <h3>رول‌پلی</h3>
+            <p class="desc">نقش‌آفرینی در دنیای ماینکرفت با اقتصاد، شغل‌ها و داستان‌های جذاب.</p>
+            <div class="bottom">
+              <span>تعداد بازیکن: 0</span>
+              <span class="offline">آفلاین</span>
+            </div>
+          </div>
+
+          <div class="card mode">
+            <span class="tag">Game Mode</span>
+            <h3>اسکای‌ماین</h3>
+            <p class="desc">از یک جزیره کوچک شروع کن و با ارتقا و فارم‌سازی تا بی‌نهایت پیش برو.</p>
+            <div class="bottom">
+              <span>تعداد بازیکن: 0</span>
+              <span class="offline">آفلاین</span>
+            </div>
+          </div>
+
+          <div class="card mode">
+            <span class="tag">Game Mode</span>
+            <h3>سروایول</h3>
+            <p class="desc">تجربه‌ی کلاسیک ماینکرفت با چالش‌های واقعی، ساخت‌وساز و بقا.</p>
+            <div class="bottom">
+              <span>تعداد بازیکن: 0</span>
+              <span class="online" style="color: forestgreen;">انلاین</span>
+            </div>
+          </div>
+
+          <div class="card mode">
+            <span class="tag">Game Mode</span>
+            <h3>بدوارز</h3>
+            <p class="desc">با پلیر های دیگه مبارزه کن برای برنده شدن و از تختت هم محافظت کن</p>
+            <div class="bottom">
+              <span>تعداد بازیکن: 0</span>
+              <span class="offline">آفلاین</span>
+            </div>
+          </div>
+
+          <div class="card mode">
+            <span class="tag">Game Mode</span>
+            <h3>پرکتیس</h3>
+            <p class="desc">فضای تمرینی برای PvP، ارتقای مهارت و آماده شدن برای فایت.</p>
+            <div class="bottom">
+              <span>تعداد بازیکن: 0</span>
+              <span class="offline">آفلاین</span>
+            </div>
+          </div>
+
+          <div class="card mode">
+            <span class="tag">Game Mode</span>
+            <h3>comming soon </h3>
+            <p class="desc">این بخش قراره در اینده اضافه بشه </p>
+            <div class="bottom">
+              <span>تعداد بازیکن: 0</span>
+              <span class="offline">آفلاین</span>
+            </div>
+          </div>
+        </div>
       </div>
-    </aside>
+    </section>
+
+    <section id="connect">
+      <div class="container">
+        <h2 class="section-title">نحوه اتصال</h2>
+        <p class="section-sub">مراحل ساده برای ورود به سرور و شروع بازی:</p>
+
+        <div class="steps-grid">
+          <div class="card step">
+            <div class="num">1</div>
+            <h4>ماینکرفت را باز کن</h4>
+            <p>وارد بخش Multiplayer شو.</p>
+          </div>
+          <div class="card step">
+            <div class="num">2</div>
+            <h4>سرور جدید اضافه کن</h4>
+            <p>روی Add Server بزن.</p>
+          </div>
+          <div class="card step">
+            <div class="num">3</div>
+            <h4>IP را وارد کن</h4>
+            <p id="connectIP">000.000.000</p>
+          </div>
+          <div class="card step">
+            <div class="num">4</div>
+            <h4>وارد شو و بازی کن</h4>
+            <p>ثبت‌نام کن و از سرور لذت ببر.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <div class="container">
+        تمامی حقوق محفوظ است | shetwarp
+      </div>
+    </footer>
   </main>
 
-  <section class="grid-2">
-    <div class="leaderboard card">
-      <h2 style="font-family:'Orbitron'">جدول برترین بازیکنان</h2>
-      <table>
-        <thead><tr><th>#</th><th>بازیکن</th><th>امتیاز</th></tr></thead>
-        <tbody>
-          <tr><td>1</td><td>YASIN1298</td><td>12,400</td></tr>
-          <tr><td>2</td><td>amirgamec</td><td>11,750</td></tr>
-          <tr><td>3</td><td>mohamadhkop</td><td>10,900</td></tr>
-        </tbody>
-      </table>
-    </div>
-
-    <div class="events card" id="events">
-      <h2 style="font-family:'Orbitron'">رویدادهای نزدیک</h2>
-      <ul style="padding-left:14px;color:var(--muted);line-height:1.6">
-        <li>جمعه — مسابقه PVP (جایزه: ۵۰k)</li>
-        <li>یکشنبه — اسکین شو و انتخاب بهترین بازیکن</li>
-        <li>سه‌شنبه — ایونت اکتشاف نقشه</li>
-      </ul>
-      <div style="margin-top:10px"><a class="btn discord" href="#">عضویت در ایونت‌ها</a></div>
-    </div>
-  </section>
-
-  <section style="margin-top:18px" class="card" id="rules">
-    <h2 style="font-family:'Orbitron'">قوانین کوتاه</h2>
-    <ol style="color:var(--muted);line-height:1.7">
-      <li>رفتار محترمانه — ۰ تحمل توهین</li>
-      <li>استفاده از چیت ممنوع و موجب اخراج می‌شود</li>
-      <li>تبلیغ بدون اجازه ممنوع است</li>
-    </ol>
-  </section>
-
-  <footer>© 2025 shetwarp — با انتخاب سروری عالی ارزش خودتون رو حفظ کنید.</footer>
-</div>
-
   <script>
-    // Animated background code (همون کد اصلی توی js که داشتی)
-    const canvas = document.getElementById('bg-canvas');
-    const ctx = canvas.getContext('2d');
-    let W = canvas.width = innerWidth; let H = canvas.height = innerHeight;
-    window.addEventListener('resize', ()=>{W=canvas.width=innerWidth;H=canvas.height=innerHeight; initParticles();});
+    const serverIP = "000.000.000";
+    document.getElementById("ipText").textContent = serverIP;
+    document.getElementById("connectIP").textContent = serverIP;
 
-    let particles = [];
-    function rand(a,b){return Math.random()*(b-a)+a}
-    function initParticles(){
-      particles = [];
-      const count = Math.floor(Math.max(40, (W*H)/90000));
-      for(let i=0;i<count;i++) particles.push({x:rand(0,W),y:rand(0,H),vx:rand(-0.4,0.4),vy:rand(-0.4,0.4),r:rand(0.6,3),h:rand(160,320)});
+    async function copyIP(){
+      try{
+        await navigator.clipboard.writeText(serverIP);
+        document.getElementById("copyMsg").textContent = "IP با موفقیت کپی شد!";
+      }catch(e){
+        document.getElementById("copyMsg").textContent = "کپی نشد، لطفاً دستی کپی کن.";
+      }
+      setTimeout(()=>document.getElementById("copyMsg").textContent = "", 2500);
     }
-    initParticles();
-
-    const stars = [];
-    const starCount = 120;
-    for(let i=0;i<starCount;i++) stars.push({x:Math.random()*W,y:Math.random()*H,r:Math.random()*1.8,alpha:rand(0.1,0.9)});
-
-    let t=0;
-    function drawGrid(t){
-      const spacing = 60;
-      ctx.save();
-      ctx.lineWidth = 1;
-      for(let x = -spacing*2; x < W + spacing*2; x += spacing){
-        const shift = Math.sin((t/8000) + x/400) * 20;
-        ctx.strokeStyle = 'rgba(120,90,255,0.04)';
-        ctx.beginPath();
-        ctx.moveTo(x+shift,0);
-        ctx.lineTo(x-shift,H);
-        ctx.stroke();
-      }
-      for(let y = -spacing*2; y < H + spacing*2; y += spacing){
-        const shift = Math.cos((t/7000) + y/400) * 20;
-        ctx.strokeStyle = 'rgba(0,255,210,0.03)';
-        ctx.beginPath();
-        ctx.moveTo(0,y+shift);
-        ctx.lineTo(W,y-shift);
-        ctx.stroke();
-      }
-      ctx.restore();
-    }
-
-    function loop(ts){
-      t = ts;
-      ctx.clearRect(0,0,W,H);
-
-      const g = ctx.createLinearGradient(0,0,W,H);
-      g.addColorStop(0,'rgba(155,92,255,0.03)');g.addColorStop(0.6,'rgba(0,255,209,0.02)');g.addColorStop(1,'rgba(10,10,30,0.6)');
-      ctx.fillStyle = g;ctx.fillRect(0,0,W,H);
-
-      drawGrid(ts);
-
-      for(let s of stars){
-        ctx.beginPath();ctx.globalAlpha = s.alpha * (0.6 + 0.4*Math.sin((ts/1200)+s.x));
-        const rg = ctx.createRadialGradient(s.x,s.y,0,s.x,s.y,10);
-        rg.addColorStop(0,'rgba(255,255,255,0.9)');rg.addColorStop(1,'rgba(255,255,255,0)');
-        ctx.fillStyle = rg;ctx.arc(s.x,s.y,s.r,0,Math.PI*2);ctx.fill();ctx.globalAlpha=1;
-      }
-
-      for(let p of particles){
-        p.x += p.vx; p.y += p.vy;
-        if(p.x < -20) p.x = W+20; if(p.x > W+20) p.x = -20; if(p.y < -20) p.y = H+20; if(p.y > H+20) p.y = -20;
-        const grd = ctx.createRadialGradient(p.x,p.y,0,p.x,p.y,p.r*6);
-        grd.addColorStop(0, `hsla(${p.h},85%,60%,0.9)`);
-        grd.addColorStop(1, `hsla(${p.h},85%,60%,0)`);
-        ctx.fillStyle = grd; ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2); ctx.fill();
-      }
-
-      ctx.beginPath();
-      for(let i=0;i<particles.length;i++){
-        for(let j=i+1;j<particles.length;j++){
-          const a = particles[i], b = particles[j];
-          const dx = a.x-b.x, dy = a.y-b.y; const d = Math.sqrt(dx*dx+dy*dy);
-          if(d<140){ ctx.strokeStyle = `rgba(155,92,255,${0.08*(1-d/140)})`; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y); ctx.stroke(); }
-        }
-      }
-
-      const vig = ctx.createLinearGradient(0,0,0,H); vig.addColorStop(0,'rgba(0,0,0,0)'); vig.addColorStop(1,'rgba(0,0,0,0.3)'); ctx.fillStyle=vig; ctx.fillRect(0,0,W,H);
-
-      requestAnimationFrame(loop);
-    }
-    requestAnimationFrame(loop);
-
-    if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){
-      ctx.clearRect(0,0,W,H);
-      for(let p of particles){ const grd = ctx.createRadialGradient(p.x,p.y,0,p.x,p.y,p.r*6); grd.addColorStop(0,'rgba(120,90,255,0.9)'); grd.addColorStop(1,'rgba(120,90,255,0)'); ctx.fillStyle=grd; ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2); ctx.fill(); }
-    }
-
   </script>
 </body>
 </html>
-
