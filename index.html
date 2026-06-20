@@ -1,718 +1,1084 @@
+
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>shetwarp | سرور ماینکرفت</title>
-  <meta name="description" content="سایت رسمی سرور ماینکرفت shetwarp با طراحی مدرن و ریسپانسیو" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ShetWarp | سرور ماینکرفت</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Vazirmatn:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
   <style>
-     @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;700;900&display=swap');
-    :root{
-      --bg:#07111f;
-      --bg2:#0b1b30;
-      --card:rgba(14, 24, 43, .68);
-      --card2:rgba(10, 18, 32, .82);
-      --line:rgba(255,255,255,.08);
-      --text:#eef5ff;
-      --muted:#a5b4c7;
-      --primary:#36d4ff;
-      --primary2:#7c5cff;
-      --success:#3cff9a;
-      --danger:#ff4d6d;
-      --shadow:0 18px 50px rgba(0,0,0,.35);
-      --radius:24px;
-      --radius-sm:16px;
-      --max:1200px;
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --green:   #4ade80;
+      --green2:  #16a34a;
+      --gold:    #fbbf24;
+      --dark:    #0a0f0d;
+      --dark2:   #111a14;
+      --dark3:   #162119;
+      --card:    #1a2b1e;
+      --border:  #2a4230;
+      --text:    #d1fae5;
+      --muted:   #6b9a78;
+      --red:     #f87171;
+      --purple:  #a78bfa;
+      --blue:    #60a5fa;
     }
 
-    *{box-sizing:border-box}
-    html{scroll-behavior:smooth}
-    body{
-      margin:0;
-      font-family:'Vazirmatn', Arial, sans-serif;
-      background:
-        radial-gradient(circle at top left, rgba(54,212,255,.16), transparent 30%),
-        radial-gradient(circle at top right, rgba(124,92,255,.14), transparent 28%),
-        linear-gradient(180deg, #050b14 0%, var(--bg) 28%, #060c16 100%);
-      color:var(--text);
-      overflow-x:hidden;
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Vazirmatn', sans-serif;
+      background: var(--dark);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
     }
 
-    a{color:inherit;text-decoration:none}
-    .container{
-      width:min(var(--max), calc(100% - 32px));
-      margin:auto;
+    /* ── SCROLLBAR ── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--dark2); }
+    ::-webkit-scrollbar-thumb { background: var(--green2); border-radius: 3px; }
+
+    /* ── CANVAS STARS ── */
+    #stars-canvas {
+      position: fixed; inset: 0; z-index: 0;
+      pointer-events: none; opacity: .45;
     }
 
-    .topbar{
-      position:fixed;
-      top:16px;
-      right:0;
-      left:0;
-      z-index:50;
-      pointer-events:none;
-    }
-    .nav{
-      pointer-events:auto;
-      width:min(var(--max), calc(100% - 32px));
-      margin:auto;
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      padding:14px 18px;
-      border:1px solid var(--line);
-      background:rgba(6, 12, 22, .72);
-      backdrop-filter:blur(16px);
-      border-radius:999px;
-      box-shadow:var(--shadow);
-    }
-    .brand{
-      display:flex;align-items:center;gap:12px;font-weight:800
-    }
-    .logo{
-      width:42px;height:42px;border-radius:14px;
-      background:linear-gradient(135deg,var(--primary),var(--primary2));
-      display:grid;place-items:center;
-      box-shadow:0 0 30px rgba(54,212,255,.28);
-      font-size:20px;
-    }
-    .brand small{display:block;color:var(--muted);font-weight:400;font-size:12px;margin-top:2px}
-    .nav-links{
-      display:flex;align-items:center;gap:18px;
-      color:var(--muted);
-      font-size:14px;
-    }
-    .nav-links a{transition:.25s}
-    .nav-links a:hover{color:var(--text)}
-    .btn{
-      border:none;
-      cursor:pointer;
-      padding:12px 18px;
-      border-radius:999px;
-      color:#04111e;
-      background:linear-gradient(135deg,var(--primary),#7cf7ff);
-      font-weight:800;
-      box-shadow:0 12px 30px rgba(54,212,255,.22);
-      transition:.25s ease;
-    }
-    .btn:hover{transform:translateY(-2px) scale(1.01)}
-    .btn.secondary{
-      background:transparent;
-      color:var(--text);
-      border:1px solid var(--line);
-      box-shadow:none;
+    /* ══════════════════════════════════════════
+       NAV
+    ══════════════════════════════════════════ */
+    nav {
+      position: fixed; top: 0; width: 100%; z-index: 100;
+      padding: 0 5%;
+      display: flex; align-items: center; justify-content: space-between;
+      height: 64px;
+      background: rgba(10,15,13,.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
     }
 
-    .hero{
-      padding:140px 0 60px;
-      position:relative;
+    .nav-logo {
+      font-family: 'Press Start 2P', monospace;
+      font-size: .9rem;
+      color: var(--green);
+      text-shadow: 0 0 20px var(--green);
+      letter-spacing: 1px;
     }
-    .hero-grid{
-      display:grid;
-      grid-template-columns:1.2fr .8fr;
-      gap:24px;
-      align-items:stretch;
-    }
-    .hero-card, .glass-card{
-      background:linear-gradient(180deg, rgba(18, 29, 50, .78), rgba(8, 14, 26, .78));
-      border:1px solid var(--line);
-      border-radius:var(--radius);
-      box-shadow:var(--shadow);
-      backdrop-filter:blur(18px);
-    }
-    .hero-card{
-      padding:32px;
-      overflow:hidden;
-      position:relative;
-      min-height:440px;
-    }
-    .hero-card::after{
-      content:"";
-      position:absolute;
-      inset:auto -120px -120px auto;
-      width:280px;height:280px;
-      background:radial-gradient(circle, rgba(54,212,255,.22), transparent 65%);
-      filter:blur(8px);
-      pointer-events:none;
-    }
-    .badge{
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      padding:8px 14px;
-      border-radius:999px;
-      background:rgba(255,255,255,.06);
-      border:1px solid var(--line);
-      color:var(--muted);
-      font-size:13px;
-      margin-bottom:18px;
-    }
-    .badge i{
-      width:10px;height:10px;border-radius:50%;
-      background:var(--success);
-      box-shadow:0 0 16px rgba(60,255,154,.75);
-      display:inline-block;
-    }
-    h1{
-      margin:0 0 16px;
-      font-size:clamp(34px, 6vw, 62px);
-      line-height:1.12;
-      letter-spacing:-.5px;
-    }
-    .gradient{
-      background:linear-gradient(135deg, #fff, #88e9ff 35%, #a891ff 80%);
-      -webkit-background-clip:text;
-      background-clip:text;
-      color:transparent;
-    }
-    .lead{
-      color:var(--muted);
-      font-size:16px;
-      line-height:1.9;
-      max-width:58ch;
-      margin-bottom:24px;
-    }
-    .hero-actions{
-      display:flex;flex-wrap:wrap;gap:12px;align-items:center;
-      margin-bottom:28px;
-    }
-    .stats-row{
-      display:grid;
-      grid-template-columns:repeat(3,1fr);
-      gap:14px;
-      margin-top:auto;
-    }
-    .stat{
-      padding:16px;
-      border-radius:18px;
-      background:rgba(255,255,255,.04);
-      border:1px solid var(--line);
-    }
-    .stat strong{
-      display:block;
-      font-size:22px;
-      margin-bottom:6px;
-    }
-    .stat span{color:var(--muted);font-size:13px}
+    .nav-logo span { color: var(--gold); }
 
-    .side-card{
-      padding:22px;
-      display:flex;
-      flex-direction:column;
-      gap:16px;
+    .nav-links {
+      display: flex; gap: 2rem; list-style: none;
     }
-    .server-panel{
-      padding:22px;
-      border-radius:22px;
-      background:
-        linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
-      border:1px solid var(--line);
+    .nav-links a {
+      text-decoration: none; color: var(--muted);
+      font-size: .85rem; font-weight: 500;
+      transition: color .2s;
     }
-    .server-top{
-      display:flex;justify-content:space-between;align-items:center;gap:12px;
-      margin-bottom:14px;
+    .nav-links a:hover { color: var(--green); }
+
+    .nav-ip {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: .4rem 1rem;
+      font-family: 'Press Start 2P', monospace;
+      font-size: .55rem;
+      color: var(--gold);
+      cursor: pointer;
+      transition: border-color .2s, box-shadow .2s;
+      white-space: nowrap;
     }
-    .server-top h3{margin:0;font-size:18px}
-    .status{
-      display:inline-flex;align-items:center;gap:8px;
-      padding:8px 12px;border-radius:999px;
-      background:rgba(60,255,154,.12);
-      color:#9dffd0;
-      border:1px solid rgba(60,255,154,.15);
-      font-size:13px;
-    }
-    .ip-box{
-      display:flex;align-items:center;justify-content:space-between;gap:12px;
-      padding:16px;
-      border-radius:18px;
-      background:rgba(0,0,0,.2);
-      border:1px solid var(--line);
-      margin:14px 0;
-    }
-    .ip-box code{
-      font-size:16px;
-      color:#dff7ff;
-      word-break:break-all;
-    }
-    .copy-msg{
-      margin-top:10px;
-      color:var(--success);
-      font-size:13px;
-      min-height:18px;
-    }
-    .mini-list{
-      display:grid;
-      gap:10px;
-      margin-top:8px;
-    }
-    .mini-item{
-      display:flex;align-items:center;gap:12px;
-      padding:14px 14px;
-      border-radius:16px;
-      background:rgba(255,255,255,.04);
-      border:1px solid var(--line);
-      color:var(--muted);
-      font-size:14px;
-    }
-    .mini-icon{
-      width:38px;height:38px;border-radius:14px;
-      background:linear-gradient(135deg, rgba(54,212,255,.2), rgba(124,92,255,.2));
-      display:grid;place-items:center;
-      color:var(--text);
-      flex:0 0 auto;
+    .nav-ip:hover {
+      border-color: var(--gold);
+      box-shadow: 0 0 12px rgba(251,191,36,.3);
     }
 
-    section{
-      padding:24px 0;
+    .hamburger {
+      display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px;
     }
-    .section-title{
-      margin:0 0 16px;
-      font-size:28px;
-    }
-    .section-sub{
-      margin:0 0 22px;
-      color:var(--muted);
-      line-height:1.9;
+    .hamburger span {
+      display: block; width: 24px; height: 2px;
+      background: var(--green); border-radius: 2px;
+      transition: all .3s;
     }
 
-    .about-grid, .gamemodes-grid, .steps-grid{
-      display:grid;
-      gap:18px;
+    .mobile-menu {
+      display: none;
+      position: fixed; top: 64px; left: 0; right: 0; z-index: 99;
+      background: rgba(10,15,13,.97);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      padding: 1.5rem 5%;
+      flex-direction: column; gap: 1rem;
     }
-    .about-grid{grid-template-columns:repeat(3,1fr)}
-    .card{
-      padding:22px;
-      border-radius:var(--radius);
-      background:var(--card);
-      border:1px solid var(--line);
-      box-shadow:var(--shadow);
-    }
-    .card h3{margin:10px 0 10px}
-    .card p{margin:0;color:var(--muted);line-height:1.9}
-    .icon{
-      width:54px;height:54px;border-radius:18px;
-      display:grid;place-items:center;
-      background:linear-gradient(135deg, rgba(54,212,255,.15), rgba(124,92,255,.15));
-      border:1px solid var(--line);
-      font-size:22px;
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a {
+      text-decoration: none; color: var(--text);
+      font-size: 1rem; font-weight: 500;
+      padding: .6rem 0; border-bottom: 1px solid var(--border);
     }
 
-    .gamemodes-grid{
-      grid-template-columns:repeat(3,1fr);
-    }
-    .mode{
-      overflow:hidden;
-      position:relative;
-    }
-    .mode .tag{
-      display:inline-block;
-      padding:7px 12px;
-      border-radius:999px;
-      font-size:12px;
-      background:rgba(255,255,255,.06);
-      border:1px solid var(--line);
-      color:var(--muted);
-      margin-bottom:14px;
-    }
-    .mode h3{margin:0 0 10px}
-    .mode .desc{min-height:58px}
-    .mode .bottom{
-      display:flex;justify-content:space-between;align-items:center;gap:12px;
-      margin-top:18px;padding-top:16px;border-top:1px solid var(--line);
-      color:var(--muted);font-size:14px;
-    }
-    .offline{
-      color:#ff9cad;
-      font-weight:700;
+    /* ══════════════════════════════════════════
+       HERO
+    ══════════════════════════════════════════ */
+    #hero {
+      position: relative; z-index: 1;
+      min-height: 100vh;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      text-align: center;
+      padding: 6rem 5% 4rem;
+      overflow: hidden;
     }
 
-    .info-grid{
-      display:grid;
-      grid-template-columns:repeat(4,1fr);
-      gap:14px;
-    }
-    .info{
-      text-align:center;
-      padding:20px 14px;
-    }
-    .info strong{
-      display:block;font-size:28px;margin-bottom:8px;
-      background:linear-gradient(135deg,#fff,#8eeeff);
-      -webkit-background-clip:text;
-      background-clip:text;
-      color:transparent;
-    }
-    .info span{color:var(--muted);font-size:14px}
-
-    .steps-grid{grid-template-columns:repeat(4,1fr)}
-    .step{
-      position:relative;
-      padding-top:26px;
-    }
-    .step .num{
-      width:44px;height:44px;border-radius:16px;
-      display:grid;place-items:center;
-      background:linear-gradient(135deg,var(--primary),var(--primary2));
-      color:#04111e;
-      font-weight:900;
-      margin-bottom:14px;
-    }
-    .step h4{margin:0 0 8px}
-    .step p{margin:0;color:var(--muted);line-height:1.8}
-
-    .footer{
-      padding:40px 0 50px;
-      color:var(--muted);
-      text-align:center;
+    /* pixel grid overlay */
+    #hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(74,222,128,.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(74,222,128,.04) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
     }
 
-    @media (max-width: 992px){
-      .hero-grid, .about-grid, .gamemodes-grid, .steps-grid, .info-grid{
-        grid-template-columns:1fr 1fr;
-      }
-      .hero-card{min-height:auto}
-    }
-    @media (max-width: 720px){
-      .nav{
-        border-radius:24px;
-        padding:14px;
-      }
-      .nav-links{
-        display:none;
-      }
-      .hero{
-        padding-top:118px;
-      }
-      .hero-grid, .about-grid, .gamemodes-grid, .steps-grid, .info-grid{
-        grid-template-columns:1fr;
-      }
-      .stats-row{
-        grid-template-columns:1fr;
-      }
-      .hero-card, .card, .server-panel{
-        padding:18px;
-      }
-      h1{font-size:clamp(30px, 10vw, 46px)}
+    /* floating blocks */
+    .block-float {
+      position: absolute;
+      width: 40px; height: 40px;
+      image-rendering: pixelated;
+      opacity: .18;
+      animation: blockFloat linear infinite;
     }
 
-    .glow{
-      position:absolute;
-      inset:auto auto 10% 8%;
-      width:220px;height:220px;border-radius:50%;
-      background:radial-gradient(circle, rgba(124,92,255,.16), transparent 65%);
-      filter:blur(8px);
-      pointer-events:none;
+    @keyframes blockFloat {
+      0%   { transform: translateY(0) rotate(0deg); opacity: .18; }
+      50%  { opacity: .28; }
+      100% { transform: translateY(-120vh) rotate(360deg); opacity: 0; }
     }
+
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: .5rem;
+      background: rgba(74,222,128,.1);
+      border: 1px solid rgba(74,222,128,.3);
+      border-radius: 100px;
+      padding: .4rem 1rem;
+      font-size: .75rem; color: var(--green);
+      margin-bottom: 2rem;
+      animation: fadeUp .6s ease both;
+    }
+    .hero-badge::before {
+      content: ''; display: block;
+      width: 8px; height: 8px; border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 8px var(--green);
+      animation: pulse 1.5s infinite;
+    }
+    @keyframes pulse {
+      0%,100% { box-shadow: 0 0 4px var(--green); }
+      50%      { box-shadow: 0 0 14px var(--green); }
+    }
+
+    .hero-title {
+      font-family: 'Press Start 2P', monospace;
+      font-size: clamp(2rem, 7vw, 5.5rem);
+      line-height: 1.3;
+      color: #fff;
+      text-shadow:
+        0 0 40px rgba(74,222,128,.6),
+        0 0 80px rgba(74,222,128,.3);
+      animation: fadeUp .7s .1s ease both;
+    }
+    .hero-title .accent { color: var(--green); }
+    .hero-title .gold   { color: var(--gold); }
+
+    .hero-sub {
+      margin-top: 1.2rem;
+      font-size: clamp(.95rem, 2vw, 1.2rem);
+      color: var(--muted);
+      max-width: 540px;
+      line-height: 1.7;
+      animation: fadeUp .7s .2s ease both;
+    }
+
+    .hero-ip-box {
+      margin-top: 2.5rem;
+      display: flex; align-items: center; gap: 0;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      animation: fadeUp .7s .3s ease both;
+      max-width: 420px; width: 100%;
+    }
+    .hero-ip-box input {
+      flex: 1; background: transparent; border: none; outline: none;
+      font-family: 'Press Start 2P', monospace;
+      font-size: .65rem; color: var(--gold);
+      padding: 1rem 1.2rem;
+      width: 0;
+    }
+    .hero-ip-box button {
+      background: var(--green2); border: none; cursor: pointer;
+      padding: 1rem 1.4rem; color: #fff;
+      font-size: .8rem; font-weight: 700;
+      transition: background .2s;
+      white-space: nowrap;
+    }
+    .hero-ip-box button:hover { background: var(--green); color: #000; }
+
+    .hero-ctas {
+      margin-top: 2rem;
+      display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center;
+      animation: fadeUp .7s .4s ease both;
+    }
+
+    .btn {
+      display: inline-flex; align-items: center; gap: .5rem;
+      padding: .75rem 1.8rem;
+      border-radius: 10px;
+      font-size: .9rem; font-weight: 700;
+      text-decoration: none;
+      cursor: pointer; border: none;
+      transition: all .2s;
+    }
+    .btn-primary {
+      background: var(--green);
+      color: #000;
+      box-shadow: 0 4px 24px rgba(74,222,128,.35);
+    }
+    .btn-primary:hover {
+      background: #6ef7a4;
+      box-shadow: 0 6px 32px rgba(74,222,128,.5);
+      transform: translateY(-2px);
+    }
+    .btn-outline {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+    .btn-outline:hover {
+      border-color: var(--green);
+      color: var(--green);
+      transform: translateY(-2px);
+    }
+
+    .hero-stats {
+      margin-top: 4rem;
+      display: flex; gap: 2.5rem; flex-wrap: wrap; justify-content: center;
+      animation: fadeUp .7s .5s ease both;
+    }
+    .stat {
+      text-align: center;
+    }
+    .stat-val {
+      font-family: 'Press Start 2P', monospace;
+      font-size: clamp(1.4rem, 3vw, 2rem);
+      color: var(--green);
+      text-shadow: 0 0 20px rgba(74,222,128,.5);
+    }
+    .stat-label {
+      font-size: .75rem; color: var(--muted);
+      margin-top: .4rem;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(28px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ══════════════════════════════════════════
+       SECTION COMMON
+    ══════════════════════════════════════════ */
+    section {
+      position: relative; z-index: 1;
+      padding: 6rem 5%;
+    }
+
+    .section-tag {
+      display: inline-block;
+      font-family: 'Press Start 2P', monospace;
+      font-size: .55rem;
+      color: var(--green);
+      background: rgba(74,222,128,.1);
+      border: 1px solid rgba(74,222,128,.25);
+      border-radius: 6px;
+      padding: .35rem .8rem;
+      margin-bottom: 1rem;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .section-title {
+      font-size: clamp(1.6rem, 4vw, 2.4rem);
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: .8rem;
+      line-height: 1.2;
+    }
+    .section-title .g { color: var(--green); }
+
+    .section-sub {
+      font-size: .95rem;
+      color: var(--muted);
+      max-width: 520px;
+      line-height: 1.7;
+    }
+
+    .divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--border), transparent);
+      margin: 0 5%;
+    }
+
+    /* ══════════════════════════════════════════
+       FEATURES
+    ══════════════════════════════════════════ */
+    #features { background: var(--dark2); }
+
+    .features-grid {
+      margin-top: 3.5rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 1.25rem;
+    }
+
+    .feature-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1.6rem;
+      transition: border-color .25s, transform .25s, box-shadow .25s;
+    }
+    .feature-card:hover {
+      border-color: var(--green);
+      transform: translateY(-4px);
+      box-shadow: 0 8px 32px rgba(74,222,128,.12);
+    }
+
+    .feature-icon {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      display: block;
+    }
+
+    .feature-title {
+      font-weight: 700; font-size: 1rem;
+      color: #fff; margin-bottom: .5rem;
+    }
+    .feature-desc { font-size: .85rem; color: var(--muted); line-height: 1.6; }
+
+    /* ══════════════════════════════════════════
+       SHOP
+    ══════════════════════════════════════════ */
+    #shop { background: var(--dark3); }
+
+    .shop-grid {
+      margin-top: 3.5rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .rank-card {
+      background: var(--card);
+      border: 2px solid var(--border);
+      border-radius: 16px;
+      padding: 2rem 1.5rem;
+      text-align: center;
+      position: relative;
+      transition: all .25s;
+      overflow: hidden;
+    }
+    .rank-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0;
+      height: 3px;
+    }
+    .rank-card.bronze::before  { background: linear-gradient(90deg,#cd7f32,#f0a040); }
+    .rank-card.silver::before  { background: linear-gradient(90deg,#9ca3af,#e5e7eb); }
+    .rank-card.gold::before    { background: linear-gradient(90deg,#f59e0b,#fef08a); }
+    .rank-card.diamond::before { background: linear-gradient(90deg,#38bdf8,#818cf8); }
+    .rank-card.vip::before     { background: linear-gradient(90deg,#a78bfa,#f472b6); }
+
+    .rank-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 12px 40px rgba(0,0,0,.4);
+    }
+
+    .rank-card.popular {
+      border-color: var(--gold);
+      box-shadow: 0 0 30px rgba(251,191,36,.15);
+    }
+
+    .popular-badge {
+      position: absolute; top: 18px; right: 14px;
+      background: var(--gold); color: #000;
+      font-size: .62rem; font-weight: 700;
+      padding: .2rem .55rem; border-radius: 100px;
+    }
+
+    .rank-emoji  { font-size: 2.5rem; margin-bottom: .8rem; display: block; }
+    .rank-name   {
+      font-family: 'Press Start 2P', monospace;
+      font-size: .7rem; margin-bottom: 1rem;
+    }
+    .rank-card.bronze .rank-name  { color: #cd7f32; }
+    .rank-card.silver .rank-name  { color: #9ca3af; }
+    .rank-card.gold   .rank-name  { color: var(--gold); }
+    .rank-card.diamond .rank-name { color: #38bdf8; }
+    .rank-card.vip    .rank-name  { color: #a78bfa; }
+
+    .rank-price {
+      font-size: 1.8rem; font-weight: 800; color: #fff;
+      margin-bottom: .2rem;
+    }
+    .rank-price sup { font-size: .9rem; }
+    .rank-price-sub { font-size: .75rem; color: var(--muted); margin-bottom: 1.4rem; }
+
+    .rank-perks {
+      list-style: none;
+      text-align: right;
+      margin-bottom: 1.6rem;
+    }
+    .rank-perks li {
+      font-size: .82rem; color: var(--muted);
+      padding: .35rem 0;
+      border-bottom: 1px solid rgba(255,255,255,.05);
+      display: flex; align-items: center; gap: .5rem;
+    }
+    .rank-perks li::before { content: '✔'; color: var(--green); font-size: .75rem; flex-shrink: 0; }
+
+    .rank-btn {
+      width: 100%;
+      background: var(--green2); color: #fff;
+      border: none; border-radius: 10px;
+      padding: .7rem; font-size: .85rem; font-weight: 700;
+      cursor: pointer; transition: all .2s;
+    }
+    .rank-btn:hover { background: var(--green); color: #000; }
+
+    /* ══════════════════════════════════════════
+       HOW TO JOIN
+    ══════════════════════════════════════════ */
+    #join { background: var(--dark2); }
+
+    .steps {
+      margin-top: 3.5rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .step {
+      display: flex; flex-direction: column; align-items: center;
+      text-align: center;
+    }
+    .step-num {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 1.6rem; color: var(--green);
+      text-shadow: 0 0 20px rgba(74,222,128,.5);
+      margin-bottom: 1rem;
+      width: 56px; height: 56px;
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      background: var(--card);
+    }
+    .step-title { font-weight: 700; color: #fff; margin-bottom: .4rem; }
+    .step-desc  { font-size: .82rem; color: var(--muted); line-height: 1.6; }
+
+    .connect-box {
+      margin-top: 3.5rem;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 2rem;
+      display: flex; align-items: center; flex-wrap: wrap; gap: 1.5rem;
+      justify-content: space-between;
+    }
+    .connect-box .label { font-size: .8rem; color: var(--muted); margin-bottom: .4rem; }
+    .connect-box .ip    {
+      font-family: 'Press Start 2P', monospace;
+      font-size: clamp(.7rem, 2vw, 1rem);
+      color: var(--gold);
+    }
+    .copy-btn {
+      background: var(--green2); color: #fff; border: none;
+      border-radius: 10px; padding: .7rem 1.4rem;
+      font-size: .85rem; font-weight: 700; cursor: pointer;
+      transition: all .2s; white-space: nowrap;
+    }
+    .copy-btn:hover { background: var(--green); color: #000; }
+    .copy-btn.copied { background: #16a34a; }
+
+    /* ══════════════════════════════════════════
+       GALLERY / SCREENSHOTS
+    ══════════════════════════════════════════ */
+    #gallery { background: var(--dark3); }
+
+    .gallery-grid {
+      margin-top: 3rem;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+    }
+    .gallery-item {
+      border-radius: 12px;
+      overflow: hidden;
+      background: var(--card);
+      border: 1px solid var(--border);
+      aspect-ratio: 16/9;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 3rem;
+      cursor: pointer;
+      transition: transform .2s, box-shadow .2s;
+      position: relative;
+    }
+    .gallery-item:hover {
+      transform: scale(1.03);
+      box-shadow: 0 8px 32px rgba(0,0,0,.4);
+    }
+    .gallery-item .overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg,
+        rgba(74,222,128,.08), rgba(251,191,36,.06));
+    }
+
+    /* ══════════════════════════════════════════
+       FOOTER
+    ══════════════════════════════════════════ */
+    footer {
+      position: relative; z-index: 1;
+      background: var(--dark);
+      border-top: 1px solid var(--border);
+      padding: 3rem 5% 2rem;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 2rem;
+      align-items: start;
+    }
+
+    .footer-brand .nav-logo { font-size: .75rem; }
+    .footer-desc {
+      font-size: .82rem; color: var(--muted);
+      max-width: 280px; margin-top: .8rem; line-height: 1.7;
+    }
+
+    .footer-links { display: flex; gap: 1.2rem; flex-wrap: wrap; }
+    .footer-links a {
+      font-size: .82rem; color: var(--muted);
+      text-decoration: none; transition: color .2s;
+    }
+    .footer-links a:hover { color: var(--green); }
+
+    .footer-bottom {
+      position: relative; z-index: 1;
+      text-align: center;
+      padding: 1.2rem 5%;
+      background: var(--dark);
+      border-top: 1px solid var(--border);
+      font-size: .75rem; color: var(--muted);
+    }
+
+    /* ══════════════════════════════════════════
+       TOAST
+    ══════════════════════════════════════════ */
+    .toast {
+      position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%) translateY(80px);
+      background: var(--green); color: #000;
+      font-weight: 700; font-size: .85rem;
+      padding: .7rem 1.6rem; border-radius: 100px;
+      z-index: 999;
+      transition: transform .3s cubic-bezier(.34,1.56,.64,1), opacity .3s;
+      opacity: 0; pointer-events: none;
+    }
+    .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+
+    /* ══════════════════════════════════════════
+       RESPONSIVE
+    ══════════════════════════════════════════ */
+    @media (max-width: 768px) {
+      .nav-links, .nav-ip { display: none; }
+      .hamburger { display: flex; }
+
+      .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+
+      footer { grid-template-columns: 1fr; }
+      .footer-links { justify-content: flex-start; }
+    }
+    @media (max-width: 480px) {
+      .gallery-grid { grid-template-columns: 1fr; }
+      .hero-stats   { gap: 1.5rem; }
+    }
+
+    /* scroll reveal */
+    .reveal {
+      opacity: 0; transform: translateY(32px);
+      transition: opacity .6s ease, transform .6s ease;
+    }
+    .reveal.visible { opacity: 1; transform: none; }
   </style>
 </head>
 <body>
 
-  <div class="topbar">
-    <div class="nav">
-      <div class="brand">
-        <div class="logo">⛏</div>
-        <div>
-          Shetwarp
-          <small>سرور ماینکرفت فارسی</small>
-        </div>
-      </div>
-      <div class="nav-links">
-        <a href="#about">درباره</a>
-        <a href="#modes">گیم‌مودها</a>
-        <a href="#connect">اتصال</a>
-        <a href="#status">وضعیت</a>
-      </div>
-      <a class="btn secondary" href="#connect">شروع</a>
-    </div>
+<!-- ── CANVAS ── -->
+<canvas id="stars-canvas"></canvas>
+
+<!-- ── TOAST ── -->
+<div class="toast" id="toast">📋 آدرس کپی شد!</div>
+
+<!-- ══════════════════════════════════════════
+     NAV
+══════════════════════════════════════════ -->
+<nav>
+  <div class="nav-logo">Shet<span>Warp</span></div>
+  <ul class="nav-links">
+    <li><a href="#features">ویژگی‌ها</a></li>
+    <li><a href="#shop">شاپ</a></li>
+    <li><a href="#join">اتصال</a></li>
+    <li><a href="#gallery">گالری</a></li>
+  </ul>
+  <div class="nav-ip" onclick="copyIP()">play.shetwarp.ir</div>
+  <div class="hamburger" onclick="toggleMenu()" id="ham">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#features" onclick="closeMenu()">ویژگی‌ها</a>
+  <a href="#shop"     onclick="closeMenu()">شاپ</a>
+  <a href="#join"     onclick="closeMenu()">اتصال</a>
+  <a href="#gallery"  onclick="closeMenu()">گالری</a>
+</div>
+
+<!-- ══════════════════════════════════════════
+     HERO
+══════════════════════════════════════════ -->
+<section id="hero">
+  <!-- floating blocks injected via JS -->
+
+  <div class="hero-badge">🟢 سرور آنلاین است — بپیوند!</div>
+
+  <h1 class="hero-title">
+    <span class="accent">Shet</span><span class="gold">Warp</span>
+  </h1>
+
+  <p class="hero-sub">
+    تجربه ماینکرفت فارسی را متفاوت کشف کن — دنیایی پر از ماجراجویی، رقابت و دوستی برات منتظره.
+  </p>
+
+  <div class="hero-ip-box">
+    <input readonly value="play.shetwarp.ir" id="ipInput"/>
+    <button onclick="copyIP()">📋 کپی</button>
   </div>
 
-  <main>
-    <section class="hero">
-      <div class="container hero-grid">
-        <div class="hero-card">
-          <div class="glow"></div>
-          <div class="badge"><i></i> 24/7 آنلاین و آماده بازی</div>
-          <h1>بهترین تجربه‌ی <span class="gradient">ماینکرفت</span> برای بازیکن‌های فارسی</h1>
-          <p class="lead">
-            سرور شت وارپ سروری متنوع و جدید میدونیم که این توضیح رو خیلی شنیدید اما این بار فرق داره برای تجربه ای بی همتا
-           
-          </p>
-          <div class="hero-actions">
-            <a class="btn" href="#connect">اتصال به سرور</a>
-            <a class="btn secondary" href="#modes">مشاهده گیم‌مودها</a>
-          </div>
+  <div class="hero-ctas">
+    <a href="#shop" class="btn btn-primary">🛒 خرید رنک</a>
+    <a href="#join" class="btn btn-outline">🎮 نحوه ورود</a>
+  </div>
 
-          <div class="stats-row">
-            <div class="stat">
-              <strong>24/7</strong>
-              <span>آنلاین</span>
-            </div>
-            <div class="stat">
-              <strong>0.9ms</strong>
-              <span>پینگ نمونه</span>
-            </div>
-            <div class="stat">
-              <strong>+5</strong>
-              <span>گیم مود فعال /غیر فعال</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="side-card glass-card" id="status">
-          <div class="server-panel">
-            <div class="server-top">
-              <h3>وضعیت سرور</h3>
-              <span class="status">● آنلاین</span>
-            </div>
-            <div class="ip-box">
-              <code id="ipText">185.141.105.216:6547</code>
-              <button class="btn secondary" onclick="copyIP()">کپی IP</button>
-            </div>
-            <div class="copy-msg" id="copyMsg"></div>
-            <div class="mini-list">
-              <div class="mini-item"><div class="mini-icon">⚡</div>پلاگین های اختصاصی</div>
-              <div class="mini-item"><div class="mini-icon">🛡</div>سروری متنوع</div>
-              <div class="mini-item"><div class="mini-icon">📶</div> پینگ پایین و ثابت</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="about">
-      <div class="container">
-        <h2 class="section-title">درباره سرور</h2>
-        <p class="section-sub">
-         سرور شت وارپ سروری که از صفر شروع میکنه و با شما تا بینهایت تموم میکنه
-        </p>
-
-        <div class="about-grid">
-          <div class="card">
-            <div class="icon">🎯</div>
-            <h3>چشم‌انداز</h3>
-            <p>ساخت یک جامعه‌ی فعال و صمیمی برای بازیکن‌ها، با تجربه‌ای حرفه‌ای و متفاوت.</p>
-          </div>
-          <div class="card">
-            <div class="icon">🌍</div>
-            <h3>دنیای بازی</h3>
-            <p>ترکیب نقش‌آفرینی، بقا، اسکای‌ماین و مینی‌گیم‌ها برای همه‌ی سلیقه‌ها.</p>
-          </div>
-          <div class="card">
-            <div class="icon">🤝</div>
-            <h3>ارزش‌ها</h3>
-            <p>احترام، نظم، همکاری و رشد مداوم برای ساختن یک تجربه‌ی جذاب و ماندگار.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section>
-      <div class="container">
-        <div class="info-grid">
-          <div class="card info">
-            <strong>24/7</strong>
-            <span>پشتیبانی آنلاین</span>
-          </div>
-          <div class="card info">
-            <strong>99.9%</strong>
-            <span>آپ‌تایم سرور</span>
-          </div>
-          <div class="card info">
-            <strong>0</strong>
-            <span>پلاگین های اضافه</span>
-          </div>
-          <div class="card info">
-            <strong>∞</strong>
-            <span>پلاگین های اختصاصی</span>
-          </div>
-        </div>
-      </div>
-    </section>
-
-<section id="shop">
-  <div class="container">
-    <h2 class="section-title">فروشگاه رنک‌ها</h2>
-    <p class="section-sub">
-      با خرید رنک‌ها از سرور حمایت کن و امکانات ویژه بگیر.
-    </p>
-
-    <div class="gamemodes-grid">
-
-      <div class="card mode">
-        <span class="tag">VIP</span>
-        <h3>VIP</h3>
-        <p class="desc">دسترسی به امکانات ویژه و آیتم‌های خاص داخل سرور.</p>
-        <div class="bottom">
-          <span>قیمت: 45 هزار تومان</span>
-          <a class="btn" href="https://reymit.ir/bleusunn" target="_blank">خرید</a>
-        </div>
-      </div>
-
-      <div class="card mode">
-        <span class="tag">VIP+</span>
-        <h3>VIP+</h3>
-        <p class="desc">امکانات بیشتر نسبت به VIP + مزایای بهتر.</p>
-        <div class="bottom">
-          <span>قیمت: 65 هزار تومان</span>
-          <a class="btn" href="https://reymit.ir/bleusunn" target="_blank">خرید</a>
-        </div>
-      </div>
-
-      <div class="card mode">
-        <span class="tag">MVP</span>
-        <h3>MVP</h3>
-        <p class="desc">یکی از محبوب‌ترین رنک‌ها با قابلیت‌های حرفه‌ای.</p>
-        <div class="bottom">
-          <span>قیمت: 99 هزار تومان</span>
-          <a class="btn" href="https://reymit.ir/bleusunn" target="_blank">خرید</a>
-        </div>
-      </div>
-
-      <div class="card mode">
-        <span class="tag">MVP+</span>
-        <h3>MVP+</h3>
-        <p class="desc">دسترسی کامل‌تر + امکانات ویژه برای پلیرهای حرفه‌ای.</p>
-        <div class="bottom">
-          <span>قیمت: 120 هزار تومان</span>
-          <a class="btn" href="https://reymit.ir/bleusunn" target="_blank">خرید</a>
-        </div>
-      </div>
-
-      <div class="card mode">
-        <span class="tag">SPONSOR</span>
-        <h3>SPONSOR</h3>
-        <p class="desc">بالاترین رنک سرور با بیشترین امکانات و قدرت.</p>
-        <div class="bottom">
-          <span>قیمت: 200 هزار تومان</span>
-          <a class="btn" href="https://reymit.ir/bleusunn" target="_blank">خرید</a>
-        </div>
-      </div>
-
+  <div class="hero-stats">
+    <div class="stat">
+      <div class="stat-val" id="onlinePlayers">—</div>
+      <div class="stat-label">بازیکن آنلاین</div>
+    </div>
+    <div class="stat">
+      <div class="stat-val">500+</div>
+      <div class="stat-label">کل اعضا</div>
+    </div>
+    <div class="stat">
+      <div class="stat-val">24/7</div>
+      <div class="stat-label">آپتایم</div>
+    </div>
+    <div class="stat">
+      <div class="stat-val">1.20</div>
+      <div class="stat-label">نسخه</div>
     </div>
   </div>
 </section>
-    
 
-    <section id="modes">
-      <div class="container">
-        <h2 class="section-title">گیم‌مودهای سرور</h2>
-        <p class="section-sub">متاسفانه به خاطر شرایط حال حاضر سرور مجازیم مون بشدت ضغیفه و فقط تونستیم گیم مود سرواویل رو به شما اراعه بدیم</p>
+<div class="divider"></div>
 
-        <div class="gamemodes-grid">
-          <div class="card mode">
-            <span class="tag">Game Mode</span>
-            <h3>رول‌پلی</h3>
-            <p class="desc">نقش‌آفرینی در دنیای ماینکرفت با اقتصاد، شغل‌ها و داستان‌های جذاب.</p>
-            <div class="bottom">
-              <span>تعداد بازیکن: 0</span>
-              <span class="offline">آفلاین</span>
-            </div>
-          </div>
+<!-- ══════════════════════════════════════════
+     FEATURES
+══════════════════════════════════════════ -->
+<section id="features">
+  <div class="reveal">
+    <span class="section-tag">⚡ چرا ShetWarp</span>
+    <h2 class="section-title">یه سرور <span class="g">متفاوت</span></h2>
+    <p class="section-sub">از پینگ پایین تا گیم‌پلی بی‌نظیر — همه چیز برای تجربه بهتر طراحی شده.</p>
+  </div>
 
-          <div class="card mode">
-            <span class="tag">Game Mode</span>
-            <h3>اسکای‌ماین</h3>
-            <p class="desc">از یک جزیره کوچک شروع کن و با ارتقا و فارم‌سازی تا بی‌نهایت پیش برو.</p>
-            <div class="bottom">
-              <span>تعداد بازیکن: 0</span>
-              <span class="offline">آفلاین</span>
-            </div>
-          </div>
+  <div class="features-grid reveal">
+    <div class="feature-card">
+      <span class="feature-icon">⚔️</span>
+      <div class="feature-title">PvP حرفه‌ای</div>
+      <p class="feature-desc">سیستم مبارزه بالانس‌شده با آرنای اختصاصی و تورنمنت‌های هفتگی.</p>
+    </div>
+    <div class="feature-card">
+      <span class="feature-icon">🏘️</span>
+      <div class="feature-title">SkyBlock</div>
+      <p class="feature-desc">جزیره‌ات رو از صفر بساز، آپگرید کن و با بقیه رقابت کن.</p>
+    </div>
+    <div class="feature-card">
+      <span class="feature-icon">🏰</span>
+      <div class="feature-title">Survival Plus</div>
+      <p class="feature-desc">ساروایوال ترکیبی با پلاگین‌های منحصربه‌فرد و اقتصاد پیشرفته.</p>
+    </div>
+    <div class="feature-card">
+      <span class="feature-icon">💰</span>
+      <div class="feature-title">اقتصاد واقعی</div>
+      <p class="feature-desc">شاپ بازیکنان، مزایده و سیستم پول برای معاملات در دنیای بازی.</p>
+    </div>
+    <div class="feature-card">
+      <span class="feature-icon">🛡️</span>
+      <div class="feature-title">آنتی‌چیت قوی</div>
+      <p class="feature-desc">بازی عادلانه با سیستم ضدتقلب پیشرفته و ادمین‌های ۲۴/۷.</p>
+    </div>
+    <div class="feature-card">
+      <span class="feature-icon">📱</span>
+      <div class="feature-title">پشتیبانی Bedrock</div>
+      <p class="feature-desc">فعلا نمیتونیم اما بعدا حتما بدراک هم پشتیبانی میکنیم</p>
+    </div>
+    <div class="feature-card">
+      <span class="feature-icon">🎁</span>
+      <div class="feature-title">رویدادهای روزانه</div>
+      <p class="feature-desc">ایونت‌های روزانه با جوایز ویژه، کی‌استروپ و مسابقات هفتگی.</p>
+    </div>
+    <div class="feature-card">
+      <span class="feature-icon">🌐</span>
+      <div class="feature-title">پینگ پایین</div>
+      <p class="feature-desc">سرور ایرانی با ۲۰ میلی‌ثانیه پینگ برای بهترین تجربه بازی.</p>
+    </div>
+  </div>
+</section>
 
-          <div class="card mode">
-            <span class="tag">Game Mode</span>
-            <h3>سروایول</h3>
-            <p class="desc">تجربه‌ی کلاسیک ماینکرفت با چالش‌های واقعی، ساخت‌وساز و بقا.</p>
-            <div class="bottom">
-              <span>تعداد بازیکن: 0</span>
-              <span class="online" style="color: forestgreen;">انلاین</span>
-            </div>
-          </div>
+<div class="divider"></div>
 
-          <div class="card mode">
-            <span class="tag">Game Mode</span>
-            <h3>بدوارز</h3>
-            <p class="desc">با پلیر های دیگه مبارزه کن برای برنده شدن و از تختت هم محافظت کن</p>
-            <div class="bottom">
-              <span>تعداد بازیکن: 0</span>
-              <span class="offline">آفلاین</span>
-            </div>
-          </div>
+<!-- ══════════════════════════════════════════
+     SHOP
+══════════════════════════════════════════ -->
+<section id="shop">
+  <div class="reveal">
+    <span class="section-tag">🛒 فروشگاه</span>
+    <h2 class="section-title">خرید <span class="g">رنک</span></h2>
+    <p class="section-sub">با خرید رنک از سرور حمایت کن و امتیازات ویژه دریافت کن.</p>
+  </div>
 
-          <div class="card mode">
-            <span class="tag">Game Mode</span>
-            <h3>پرکتیس</h3>
-            <p class="desc">فضای تمرینی برای PvP، ارتقای مهارت و آماده شدن برای فایت.</p>
-            <div class="bottom">
-              <span>تعداد بازیکن: 0</span>
-              <span class="offline">آفلاین</span>
-            </div>
-          </div>
+  <div class="shop-grid reveal">
 
-          <div class="card mode">
-            <span class="tag">Game Mode</span>
-            <h3>comming soon </h3>
-            <p class="desc">این بخش قراره در اینده اضافه بشه </p>
-            <div class="bottom">
-              <span>تعداد بازیکن: 0</span>
-              <span class="offline">آفلاین</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
+    <div class="rank-card bronze">
+      <span class="rank-emoji">⭐</span>
+      <div class="rank-name">BRONZE</div>
+      <div class="rank-price"><sup>تومان </sup>29,000</div>
+      <div class="rank-price-sub">یک‌ماهه</div>
+      <ul class="rank-perks">
+        <li>کیت ویژه</li>
+        <li>/craft</li>
+        <li>پشتیبانی گرفتن شغل ویژه</li>
+        <li>رنگ اسم اختصاصی</li>
+      </ul>
+     <button class="rank-btn" onclick="window.location.href='https://reymit.ir/bleusunn'">
+    خرید Bronze
+</button>
+    </div>
+    <div class="rank-card silver">
+      <span class="rank-emoji">🔩</span>
+      <div class="rank-name">SILVER</div>
+      <div class="rank-price"><sup>تومان </sup>59,000</div>
+      <div class="rank-price-sub">یک‌ماهه</div>
+      <ul class="rank-perks">
+        <li>همه مزایای Bronze</li>
+        <li>کیت ویژه</li>
+        <li>/nick — تغییر نام موقت</li>
+        <li>نام ویژه در تب</li>
+        <li>گرفتن 1 ماشین اختصاصی</li>
+      </ul>
+      <button class="rank-btn" onclick="window.location.href='https://reymit.ir/bleusunn'">
+    خرید Silver
+</button>
+    </div>
 
-    <section id="connect">
-      <div class="container">
-        <h2 class="section-title">نحوه اتصال</h2>
-        <p class="section-sub">مراحل ساده برای ورود به سرور و شروع بازی:</p>
+    <div class="rank-card gold popular">
+      <span class="popular-badge">⭐ محبوب</span>
+      <span class="rank-emoji">🏆</span>
+      <div class="rank-name">GOLD</div>
+      <div class="rank-price"><sup>تومان </sup>99,000</div>
+      <div class="rank-price-sub">یک‌ماهه</div>
+      <ul class="rank-perks">
+        <li>همه مزایای Silver</li>
+        <li>کیت ویژه</li>
+        <li>پشتیبانی فوق العاده</li>
+        <li>رنک ویژه در تب</li>
+        <li>/tpa</li>
+      </ul>
+      <button class="rank-btn" onclick="window.location.href='https://reymit.ir/bleusunn'">
+    خرید Gold
+</button>
+    </div>
 
-        <div class="steps-grid">
-          <div class="card step">
-            <div class="num">1</div>
-            <h4>ماینکرفت را باز کن</h4>
-            <p>وارد بخش Multiplayer شو.</p>
-          </div>
-          <div class="card step">
-            <div class="num">2</div>
-            <h4>سرور جدید اضافه کن</h4>
-            <p>روی Add Server بزن.</p>
-          </div>
-          <div class="card step">
-            <div class="num">3</div>
-            <h4>IP را وارد کن</h4>
-            <p id="connectIP">185.141.105.216:6547</p>
-          </div>
-          <div class="card step">
-            <div class="num">4</div>
-            <h4>وارد شو و بازی کن</h4>
-            <p>ثبت‌نام کن و از سرور لذت ببر.</p>
-          </div>
-        </div>
-      </div>
-    </section>
+    <div class="rank-card diamond">
+      <span class="rank-emoji">💎</span>
+      <div class="rank-name">DIAMOND</div>
+      <div class="rank-price"><sup>تومان </sup>149,000</div>
+      <div class="rank-price-sub">یک‌ماهه</div>
+      <ul class="rank-perks">
+        <li>همه مزایای Gold</li>
+        <li>/tpahere</li>
+        <li>تایتل اختصاصی</li>
+        <li>دسترسی زودتر به ایونت‌ها</li>
+        <li>دسترسی به 3 ماشین</li>
+        <li>لاگین بدون صف</li>
+      </ul>
+      <button class="rank-btn" onclick="window.location.href='https://reymit.ir/bleusunn'">
+    خرید Diamond
+</button>
 
-    <footer class="footer">
-      <div class="container">
-        تمامی حقوق محفوظ است | shetwarp
-      </div>
-    </footer>
-  </main>
+    </div>
 
-  <script>
-    const serverIP = "185.141.105.216:6547";
-    document.getElementById("ipText").textContent = serverIP;
-    document.getElementById("connectIP").textContent = serverIP;
+    <div class="rank-card vip">
+      <span class="rank-emoji">👑</span>
+      <div class="rank-name">VIP</div>
+      <div class="rank-price"><sup>تومان </sup>200,000</div>
+      <div class="rank-price-sub">یک‌ماهه</div>
+      <ul class="rank-perks">
+        <li>همه مزایای Diamond</li>
+        <li>دسترسی به تمام پلاگین‌ها</li>
+        <li>اتاق خصوصی در لابی</li>
+        <li>کانال تخصصی در دیسکورد</li>
+        <li>پشتیبانی اولویت‌دار</li>
+        <li>کیت ویژه</li>
+      </ul>
+      <button class="rank-btn" onclick="window.location.href='https://reymit.ir/bleusunn'">
+    خرید VIP
+</button>
+    </div>
 
-    async function copyIP(){
-      try{
-        await navigator.clipboard.writeText(serverIP);
-        document.getElementById("copyMsg").textContent = "IP با موفقیت کپی شد!";
-      }catch(e){
-        document.getElementById("copyMsg").textContent = "کپی نشد، لطفاً دستی کپی کن.";
-      }
-      setTimeout(()=>document.getElementById("copyMsg").textContent = "185.141.105.216:6547", 2500);
-    }
-  </script>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ══════════════════════════════════════════
+     JOIN
+══════════════════════════════════════════ -->
+<section id="join">
+  <div class="reveal">
+    <span class="section-tag">🎮 نحوه ورود</span>
+    <h2 class="section-title">چطور <span class="g">وارد بشم؟</span></h2>
+    <p class="section-sub">در ۳ قدم ساده به سرور وصل شو و ماجراجویی رو شروع کن.</p>
+  </div>
+
+  <div class="steps reveal">
+    <div class="step">
+      <div class="step-num">۱</div>
+      <div class="step-title">ماینکرفت رو باز کن</div>
+      <p class="step-desc">فقط روی ماینکرفت کلیک کن همین</p>
+    </div>
+    <div class="step">
+      <div class="step-num">۲</div>
+      <div class="step-title">به سرور وصل شو</div>
+      <p class="step-desc">گزینه Multiplayer رو بزن، Add Server رو انتخاب کن و آدرس رو وارد کن.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">۳</div>
+      <div class="step-title">بازی کن!</div>
+      <p class="step-desc">بعد از ورود، راهنمای شروع بازی بهت نشون داده میشه. از ماجراجویی لذت ببر!</p>
+    </div>
+  </div>
+
+  <div class="connect-box reveal">
+    <div>
+      <div class="label">آدرس سرور:</div>
+      <div class="ip">play.shetwarp.ir</div>
+    </div>
+    <div>
+      <div class="label">پورت Java:</div>
+      <div class="ip">-</div>
+    </div>
+    <div>
+      <div class="label">پورت Bedrock:</div>
+      <div class="ip">هنوز ساخته نشده</div>
+    </div>
+    <button class="copy-btn" id="copyBtn" onclick="copyIP()">📋 کپی آدرس</button>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ══════════════════════════════════════════
+     GALLERY
+══════════════════════════════════════════ -->
+<section id="gallery">
+  <div class="reveal">
+    <span class="section-tag">📸 گالری</span>
+    <h2 class="section-title">تصاویر <span class="g">سرور</span></h2>
+    <p class="section-sub">یه نگاه به دنیای ShetWarp بنداز قبل از اینکه وارد بشی.</p>
+  </div>
+
+  <div class="gallery-grid reveal">
+    <div class="gallery-item" style="background:linear-gradient(135deg,#0f2d1a,#1a4a2a)">
+      <div class="overlay"></div>
+      🏰
+    </div>
+    <div class="gallery-item" style="background:linear-gradient(135deg,#1a1a2e,#16213e)">
+      <div class="overlay"></div>
+      ⚔️
+    </div>
+    <div class="gallery-item" style="background:linear-gradient(135deg,#2d1b00,#4a2d00)">
+      <div class="overlay"></div>
+      🌅
+    </div>
+    <div class="gallery-item" style="background:linear-gradient(135deg,#0d1f33,#1a3a5c)">
+      <div class="overlay"></div>
+      🌊
+    </div>
+    <div class="gallery-item" style="background:linear-gradient(135deg,#2d0d0d,#4a1a1a)">
+      <div class="overlay"></div>
+      🐉
+    </div>
+    <div class="gallery-item" style="background:linear-gradient(135deg,#1a2d00,#2a4a00)">
+      <div class="overlay"></div>
+      🌲
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     FOOTER
+══════════════════════════════════════════ -->
+<footer>
+  <div class="footer-brand">
+    <div class="nav-logo">Shet<span style="color:var(--gold)">Warp</span></div>
+    <p class="footer-desc">بهترین سرور رول پلی ماینکرفت فارسی با جامعه‌ای پویا و گیم‌پلی منحصربه‌فرد.</p>
+  </div>
+  <div class="footer-links">
+    <a href="#features">ویژگی‌ها</a>
+    <a href="#shop">شاپ</a>
+    <a href="#join">اتصال</a>
+    <a href="#">دیسکورد</a>
+    <a href="#">قوانین</a>
+  </div>
+</footer>
+<div class="footer-bottom">
+  © 2025 ShetWarp — تمامی حقوق محفوظ است.
+</div>
+
+<!-- ══════════════════════════════════════════
+     SCRIPTS
+══════════════════════════════════════════ -->
+<script>
+/* ── STARS / PARTICLES ── */
+(function(){
+  const c = document.getElementById('stars-canvas');
+  const ctx = c.getContext('2d');
+  let W,H,stars=[];
+
+  function resize(){
+    W = c.width  = window.innerWidth;
+    H = c.height = window.innerHeight;
+  }
+
+  function mkStar(){
+    return {
+      x: Math.random()*W,
+      y: Math.random()*H,
+      r: Math.random()*1.4+.2,
+      a: Math.random(),
+      da: (Math.random()*.006+.002)*(Math.random()<.5?1:-1)
+    };
+  }
+
+  function init(){
+    resize();
+    stars = Array.from({length:160}, mkStar);
+  }
+
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    stars.forEach(s=>{
+      s.a += s.da;
+      if(s.a<=0||s.a>=1) s.da*=-1;
+      ctx.beginPath();
+      ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
+      ctx.fillStyle = `rgba(74,222,128,${s.a*.7})`;
+      ctx.fill();
+    });
+    requestAnimationFrame(draw);
+  }
+
+  window.addEventListener('resize', resize);
+  init(); draw();
+})();
+
+/* ── FLOATING BLOCKS ── */
+(function(){
+  const emojis = ['🪨','🌿','💎','🟫','🟩','⛏️','🌲','🏔️'];
+  const hero = document.getElementById('hero');
+  function spawnBlock(){
+    const el = document.createElement('div');
+    el.className = 'block-float';
+    el.textContent = emojis[Math.floor(Math.random()*emojis.length)];
+    el.style.cssText = `
+      left:${Math.random()*100}%;
+      bottom:-60px;
+      font-size:${24+Math.random()*24}px;
+      animation-duration:${8+Math.random()*12}s;
+      animation-delay:${Math.random()*4}s;
+    `;
+    hero.appendChild(el);
+    el.addEventListener('animationend',()=>el.remove());
+  }
+  spawnBlock();
+  setInterval(spawnBlock, 1800);
+})();
+
+/* ── COPY IP ── */
+function copyIP(){
+  navigator.clipboard.writeText('play.shetwarp.ir').then(()=>{
+    showToast('📋 آدرس کپی شد!');
+    const btn = document.getElementById('copyBtn');
+    if(btn){ btn.textContent='✅ کپی شد!'; btn.classList.add('copied'); setTimeout(()=>{ btn.textContent='📋 کپی آدرس'; btn.classList.remove('copied'); },2000); }
+  });
+}
+
+/* ── TOAST ── */
+function showToast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'), 2400);
+}
+
+/* ── BUY RANK ── */
+function buyRank(rank){
+  showToast('🛒 در حال انتقال به درگاه خرید '+rank+'...');
+}
+
+/* ── MOBILE MENU ── */
+function toggleMenu(){
+  const m = document.getElementById('mobileMenu');
+  m.classList.toggle('open');
+}
+function closeMenu(){
+  document.getElementById('mobileMenu').classList.remove('open');
+}
+
+/* ── SCROLL REVEAL ── */
+(function(){
+  const els = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver(entries=>{
+    entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('visible'); io.unobserve(e.target); } });
+  },{ threshold:.12 });
+  els.forEach(el=>io.observe(el));
+})();
+
+
+</script>
 </body>
 </html>
