@@ -1,1084 +1,130 @@
-
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>ShetWarp | سرور ماینکرفت</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com"/>
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Vazirmatn:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>خرید رنک</title>
 
-    :root {
-      --green:   #4ade80;
-      --green2:  #16a34a;
-      --gold:    #fbbf24;
-      --dark:    #0a0f0d;
-      --dark2:   #111a14;
-      --dark3:   #162119;
-      --card:    #1a2b1e;
-      --border:  #2a4230;
-      --text:    #d1fae5;
-      --muted:   #6b9a78;
-      --red:     #f87171;
-      --purple:  #a78bfa;
-      --blue:    #60a5fa;
-    }
+<!-- Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/rastikerdar/vazir-font@v33.003/dist/font-face.css">
 
-    html { scroll-behavior: smooth; }
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family: Vazir, sans-serif;
+}
 
-    body {
-      font-family: 'Vazirmatn', sans-serif;
-      background: var(--dark);
-      color: var(--text);
-      min-height: 100vh;
-      overflow-x: hidden;
-    }
+body{
+    background:url("1 (104).png") center center/cover no-repeat fixed;
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
 
-    /* ── SCROLLBAR ── */
-    ::-webkit-scrollbar { width: 6px; }
-    ::-webkit-scrollbar-track { background: var(--dark2); }
-    ::-webkit-scrollbar-thumb { background: var(--green2); border-radius: 3px; }
+.overlay{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.65);
+}
 
-    /* ── CANVAS STARS ── */
-    #stars-canvas {
-      position: fixed; inset: 0; z-index: 0;
-      pointer-events: none; opacity: .45;
-    }
+.box{
+    position:relative;
+    z-index:2;
+    text-align:center;
+    color:#fff;
+    background:rgba(0,0,0,.45);
+    backdrop-filter:blur(8px);
+    padding:50px;
+    border-radius:20px;
+    width:90%;
+    max-width:600px;
+}
 
-    /* ══════════════════════════════════════════
-       NAV
-    ══════════════════════════════════════════ */
-    nav {
-      position: fixed; top: 0; width: 100%; z-index: 100;
-      padding: 0 5%;
-      display: flex; align-items: center; justify-content: space-between;
-      height: 64px;
-      background: rgba(10,15,13,.85);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--border);
-    }
+h1{
+    font-size:38px;
+    margin-bottom:15px;
+}
 
-    .nav-logo {
-      font-family: 'Press Start 2P', monospace;
-      font-size: .9rem;
-      color: var(--green);
-      text-shadow: 0 0 20px var(--green);
-      letter-spacing: 1px;
-    }
-    .nav-logo span { color: var(--gold); }
+p{
+    font-size:20px;
+    margin-bottom:35px;
+    line-height:1.8;
+}
 
-    .nav-links {
-      display: flex; gap: 2rem; list-style: none;
-    }
-    .nav-links a {
-      text-decoration: none; color: var(--muted);
-      font-size: .85rem; font-weight: 500;
-      transition: color .2s;
-    }
-    .nav-links a:hover { color: var(--green); }
+.buttons{
+    display:flex;
+    justify-content:center;
+    gap:20px;
+    flex-wrap:wrap;
+}
 
-    .nav-ip {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: .4rem 1rem;
-      font-family: 'Press Start 2P', monospace;
-      font-size: .55rem;
-      color: var(--gold);
-      cursor: pointer;
-      transition: border-color .2s, box-shadow .2s;
-      white-space: nowrap;
-    }
-    .nav-ip:hover {
-      border-color: var(--gold);
-      box-shadow: 0 0 12px rgba(251,191,36,.3);
-    }
+.btn{
+    text-decoration:none;
+    color:#fff;
+    padding:15px 28px;
+    border-radius:12px;
+    font-size:20px;
+    transition:.3s;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-weight:bold;
+}
 
-    .hamburger {
-      display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px;
-    }
-    .hamburger span {
-      display: block; width: 24px; height: 2px;
-      background: var(--green); border-radius: 2px;
-      transition: all .3s;
-    }
+.discord{
+    background:#5865F2;
+}
 
-    .mobile-menu {
-      display: none;
-      position: fixed; top: 64px; left: 0; right: 0; z-index: 99;
-      background: rgba(10,15,13,.97);
-      backdrop-filter: blur(16px);
-      border-bottom: 1px solid var(--border);
-      padding: 1.5rem 5%;
-      flex-direction: column; gap: 1rem;
-    }
-    .mobile-menu.open { display: flex; }
-    .mobile-menu a {
-      text-decoration: none; color: var(--text);
-      font-size: 1rem; font-weight: 500;
-      padding: .6rem 0; border-bottom: 1px solid var(--border);
-    }
+.telegram{
+    background:#229ED9;
+}
 
-    /* ══════════════════════════════════════════
-       HERO
-    ══════════════════════════════════════════ */
-    #hero {
-      position: relative; z-index: 1;
-      min-height: 100vh;
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      text-align: center;
-      padding: 6rem 5% 4rem;
-      overflow: hidden;
-    }
+.rubika{
+    background:#E53935;
+}
 
-    /* pixel grid overlay */
-    #hero::before {
-      content: '';
-      position: absolute; inset: 0;
-      background-image:
-        linear-gradient(rgba(74,222,128,.04) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(74,222,128,.04) 1px, transparent 1px);
-      background-size: 40px 40px;
-      pointer-events: none;
-    }
+.btn:hover{
+    transform:translateY(-5px) scale(1.05);
+    box-shadow:0 0 20px rgba(255,255,255,.4);
+}
+</style>
 
-    /* floating blocks */
-    .block-float {
-      position: absolute;
-      width: 40px; height: 40px;
-      image-rendering: pixelated;
-      opacity: .18;
-      animation: blockFloat linear infinite;
-    }
-
-    @keyframes blockFloat {
-      0%   { transform: translateY(0) rotate(0deg); opacity: .18; }
-      50%  { opacity: .28; }
-      100% { transform: translateY(-120vh) rotate(360deg); opacity: 0; }
-    }
-
-    .hero-badge {
-      display: inline-flex; align-items: center; gap: .5rem;
-      background: rgba(74,222,128,.1);
-      border: 1px solid rgba(74,222,128,.3);
-      border-radius: 100px;
-      padding: .4rem 1rem;
-      font-size: .75rem; color: var(--green);
-      margin-bottom: 2rem;
-      animation: fadeUp .6s ease both;
-    }
-    .hero-badge::before {
-      content: ''; display: block;
-      width: 8px; height: 8px; border-radius: 50%;
-      background: var(--green);
-      box-shadow: 0 0 8px var(--green);
-      animation: pulse 1.5s infinite;
-    }
-    @keyframes pulse {
-      0%,100% { box-shadow: 0 0 4px var(--green); }
-      50%      { box-shadow: 0 0 14px var(--green); }
-    }
-
-    .hero-title {
-      font-family: 'Press Start 2P', monospace;
-      font-size: clamp(2rem, 7vw, 5.5rem);
-      line-height: 1.3;
-      color: #fff;
-      text-shadow:
-        0 0 40px rgba(74,222,128,.6),
-        0 0 80px rgba(74,222,128,.3);
-      animation: fadeUp .7s .1s ease both;
-    }
-    .hero-title .accent { color: var(--green); }
-    .hero-title .gold   { color: var(--gold); }
-
-    .hero-sub {
-      margin-top: 1.2rem;
-      font-size: clamp(.95rem, 2vw, 1.2rem);
-      color: var(--muted);
-      max-width: 540px;
-      line-height: 1.7;
-      animation: fadeUp .7s .2s ease both;
-    }
-
-    .hero-ip-box {
-      margin-top: 2.5rem;
-      display: flex; align-items: center; gap: 0;
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      overflow: hidden;
-      animation: fadeUp .7s .3s ease both;
-      max-width: 420px; width: 100%;
-    }
-    .hero-ip-box input {
-      flex: 1; background: transparent; border: none; outline: none;
-      font-family: 'Press Start 2P', monospace;
-      font-size: .65rem; color: var(--gold);
-      padding: 1rem 1.2rem;
-      width: 0;
-    }
-    .hero-ip-box button {
-      background: var(--green2); border: none; cursor: pointer;
-      padding: 1rem 1.4rem; color: #fff;
-      font-size: .8rem; font-weight: 700;
-      transition: background .2s;
-      white-space: nowrap;
-    }
-    .hero-ip-box button:hover { background: var(--green); color: #000; }
-
-    .hero-ctas {
-      margin-top: 2rem;
-      display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center;
-      animation: fadeUp .7s .4s ease both;
-    }
-
-    .btn {
-      display: inline-flex; align-items: center; gap: .5rem;
-      padding: .75rem 1.8rem;
-      border-radius: 10px;
-      font-size: .9rem; font-weight: 700;
-      text-decoration: none;
-      cursor: pointer; border: none;
-      transition: all .2s;
-    }
-    .btn-primary {
-      background: var(--green);
-      color: #000;
-      box-shadow: 0 4px 24px rgba(74,222,128,.35);
-    }
-    .btn-primary:hover {
-      background: #6ef7a4;
-      box-shadow: 0 6px 32px rgba(74,222,128,.5);
-      transform: translateY(-2px);
-    }
-    .btn-outline {
-      background: transparent;
-      color: var(--text);
-      border: 1px solid var(--border);
-    }
-    .btn-outline:hover {
-      border-color: var(--green);
-      color: var(--green);
-      transform: translateY(-2px);
-    }
-
-    .hero-stats {
-      margin-top: 4rem;
-      display: flex; gap: 2.5rem; flex-wrap: wrap; justify-content: center;
-      animation: fadeUp .7s .5s ease both;
-    }
-    .stat {
-      text-align: center;
-    }
-    .stat-val {
-      font-family: 'Press Start 2P', monospace;
-      font-size: clamp(1.4rem, 3vw, 2rem);
-      color: var(--green);
-      text-shadow: 0 0 20px rgba(74,222,128,.5);
-    }
-    .stat-label {
-      font-size: .75rem; color: var(--muted);
-      margin-top: .4rem;
-    }
-
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(28px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-
-    /* ══════════════════════════════════════════
-       SECTION COMMON
-    ══════════════════════════════════════════ */
-    section {
-      position: relative; z-index: 1;
-      padding: 6rem 5%;
-    }
-
-    .section-tag {
-      display: inline-block;
-      font-family: 'Press Start 2P', monospace;
-      font-size: .55rem;
-      color: var(--green);
-      background: rgba(74,222,128,.1);
-      border: 1px solid rgba(74,222,128,.25);
-      border-radius: 6px;
-      padding: .35rem .8rem;
-      margin-bottom: 1rem;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-    }
-
-    .section-title {
-      font-size: clamp(1.6rem, 4vw, 2.4rem);
-      font-weight: 800;
-      color: #fff;
-      margin-bottom: .8rem;
-      line-height: 1.2;
-    }
-    .section-title .g { color: var(--green); }
-
-    .section-sub {
-      font-size: .95rem;
-      color: var(--muted);
-      max-width: 520px;
-      line-height: 1.7;
-    }
-
-    .divider {
-      height: 1px;
-      background: linear-gradient(90deg, transparent, var(--border), transparent);
-      margin: 0 5%;
-    }
-
-    /* ══════════════════════════════════════════
-       FEATURES
-    ══════════════════════════════════════════ */
-    #features { background: var(--dark2); }
-
-    .features-grid {
-      margin-top: 3.5rem;
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-      gap: 1.25rem;
-    }
-
-    .feature-card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 1.6rem;
-      transition: border-color .25s, transform .25s, box-shadow .25s;
-    }
-    .feature-card:hover {
-      border-color: var(--green);
-      transform: translateY(-4px);
-      box-shadow: 0 8px 32px rgba(74,222,128,.12);
-    }
-
-    .feature-icon {
-      font-size: 2rem;
-      margin-bottom: 1rem;
-      display: block;
-    }
-
-    .feature-title {
-      font-weight: 700; font-size: 1rem;
-      color: #fff; margin-bottom: .5rem;
-    }
-    .feature-desc { font-size: .85rem; color: var(--muted); line-height: 1.6; }
-
-    /* ══════════════════════════════════════════
-       SHOP
-    ══════════════════════════════════════════ */
-    #shop { background: var(--dark3); }
-
-    .shop-grid {
-      margin-top: 3.5rem;
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-      gap: 1.5rem;
-    }
-
-    .rank-card {
-      background: var(--card);
-      border: 2px solid var(--border);
-      border-radius: 16px;
-      padding: 2rem 1.5rem;
-      text-align: center;
-      position: relative;
-      transition: all .25s;
-      overflow: hidden;
-    }
-    .rank-card::before {
-      content: '';
-      position: absolute; top: 0; left: 0; right: 0;
-      height: 3px;
-    }
-    .rank-card.bronze::before  { background: linear-gradient(90deg,#cd7f32,#f0a040); }
-    .rank-card.silver::before  { background: linear-gradient(90deg,#9ca3af,#e5e7eb); }
-    .rank-card.gold::before    { background: linear-gradient(90deg,#f59e0b,#fef08a); }
-    .rank-card.diamond::before { background: linear-gradient(90deg,#38bdf8,#818cf8); }
-    .rank-card.vip::before     { background: linear-gradient(90deg,#a78bfa,#f472b6); }
-
-    .rank-card:hover {
-      transform: translateY(-6px);
-      box-shadow: 0 12px 40px rgba(0,0,0,.4);
-    }
-
-    .rank-card.popular {
-      border-color: var(--gold);
-      box-shadow: 0 0 30px rgba(251,191,36,.15);
-    }
-
-    .popular-badge {
-      position: absolute; top: 18px; right: 14px;
-      background: var(--gold); color: #000;
-      font-size: .62rem; font-weight: 700;
-      padding: .2rem .55rem; border-radius: 100px;
-    }
-
-    .rank-emoji  { font-size: 2.5rem; margin-bottom: .8rem; display: block; }
-    .rank-name   {
-      font-family: 'Press Start 2P', monospace;
-      font-size: .7rem; margin-bottom: 1rem;
-    }
-    .rank-card.bronze .rank-name  { color: #cd7f32; }
-    .rank-card.silver .rank-name  { color: #9ca3af; }
-    .rank-card.gold   .rank-name  { color: var(--gold); }
-    .rank-card.diamond .rank-name { color: #38bdf8; }
-    .rank-card.vip    .rank-name  { color: #a78bfa; }
-
-    .rank-price {
-      font-size: 1.8rem; font-weight: 800; color: #fff;
-      margin-bottom: .2rem;
-    }
-    .rank-price sup { font-size: .9rem; }
-    .rank-price-sub { font-size: .75rem; color: var(--muted); margin-bottom: 1.4rem; }
-
-    .rank-perks {
-      list-style: none;
-      text-align: right;
-      margin-bottom: 1.6rem;
-    }
-    .rank-perks li {
-      font-size: .82rem; color: var(--muted);
-      padding: .35rem 0;
-      border-bottom: 1px solid rgba(255,255,255,.05);
-      display: flex; align-items: center; gap: .5rem;
-    }
-    .rank-perks li::before { content: '✔'; color: var(--green); font-size: .75rem; flex-shrink: 0; }
-
-    .rank-btn {
-      width: 100%;
-      background: var(--green2); color: #fff;
-      border: none; border-radius: 10px;
-      padding: .7rem; font-size: .85rem; font-weight: 700;
-      cursor: pointer; transition: all .2s;
-    }
-    .rank-btn:hover { background: var(--green); color: #000; }
-
-    /* ══════════════════════════════════════════
-       HOW TO JOIN
-    ══════════════════════════════════════════ */
-    #join { background: var(--dark2); }
-
-    .steps {
-      margin-top: 3.5rem;
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-      gap: 1.5rem;
-    }
-
-    .step {
-      display: flex; flex-direction: column; align-items: center;
-      text-align: center;
-    }
-    .step-num {
-      font-family: 'Press Start 2P', monospace;
-      font-size: 1.6rem; color: var(--green);
-      text-shadow: 0 0 20px rgba(74,222,128,.5);
-      margin-bottom: 1rem;
-      width: 56px; height: 56px;
-      border: 2px solid var(--border);
-      border-radius: 12px;
-      display: flex; align-items: center; justify-content: center;
-      background: var(--card);
-    }
-    .step-title { font-weight: 700; color: #fff; margin-bottom: .4rem; }
-    .step-desc  { font-size: .82rem; color: var(--muted); line-height: 1.6; }
-
-    .connect-box {
-      margin-top: 3.5rem;
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 2rem;
-      display: flex; align-items: center; flex-wrap: wrap; gap: 1.5rem;
-      justify-content: space-between;
-    }
-    .connect-box .label { font-size: .8rem; color: var(--muted); margin-bottom: .4rem; }
-    .connect-box .ip    {
-      font-family: 'Press Start 2P', monospace;
-      font-size: clamp(.7rem, 2vw, 1rem);
-      color: var(--gold);
-    }
-    .copy-btn {
-      background: var(--green2); color: #fff; border: none;
-      border-radius: 10px; padding: .7rem 1.4rem;
-      font-size: .85rem; font-weight: 700; cursor: pointer;
-      transition: all .2s; white-space: nowrap;
-    }
-    .copy-btn:hover { background: var(--green); color: #000; }
-    .copy-btn.copied { background: #16a34a; }
-
-    /* ══════════════════════════════════════════
-       GALLERY / SCREENSHOTS
-    ══════════════════════════════════════════ */
-    #gallery { background: var(--dark3); }
-
-    .gallery-grid {
-      margin-top: 3rem;
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1rem;
-    }
-    .gallery-item {
-      border-radius: 12px;
-      overflow: hidden;
-      background: var(--card);
-      border: 1px solid var(--border);
-      aspect-ratio: 16/9;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 3rem;
-      cursor: pointer;
-      transition: transform .2s, box-shadow .2s;
-      position: relative;
-    }
-    .gallery-item:hover {
-      transform: scale(1.03);
-      box-shadow: 0 8px 32px rgba(0,0,0,.4);
-    }
-    .gallery-item .overlay {
-      position: absolute; inset: 0;
-      background: linear-gradient(135deg,
-        rgba(74,222,128,.08), rgba(251,191,36,.06));
-    }
-
-    /* ══════════════════════════════════════════
-       FOOTER
-    ══════════════════════════════════════════ */
-    footer {
-      position: relative; z-index: 1;
-      background: var(--dark);
-      border-top: 1px solid var(--border);
-      padding: 3rem 5% 2rem;
-      display: grid;
-      grid-template-columns: 1fr auto;
-      gap: 2rem;
-      align-items: start;
-    }
-
-    .footer-brand .nav-logo { font-size: .75rem; }
-    .footer-desc {
-      font-size: .82rem; color: var(--muted);
-      max-width: 280px; margin-top: .8rem; line-height: 1.7;
-    }
-
-    .footer-links { display: flex; gap: 1.2rem; flex-wrap: wrap; }
-    .footer-links a {
-      font-size: .82rem; color: var(--muted);
-      text-decoration: none; transition: color .2s;
-    }
-    .footer-links a:hover { color: var(--green); }
-
-    .footer-bottom {
-      position: relative; z-index: 1;
-      text-align: center;
-      padding: 1.2rem 5%;
-      background: var(--dark);
-      border-top: 1px solid var(--border);
-      font-size: .75rem; color: var(--muted);
-    }
-
-    /* ══════════════════════════════════════════
-       TOAST
-    ══════════════════════════════════════════ */
-    .toast {
-      position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%) translateY(80px);
-      background: var(--green); color: #000;
-      font-weight: 700; font-size: .85rem;
-      padding: .7rem 1.6rem; border-radius: 100px;
-      z-index: 999;
-      transition: transform .3s cubic-bezier(.34,1.56,.64,1), opacity .3s;
-      opacity: 0; pointer-events: none;
-    }
-    .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
-
-    /* ══════════════════════════════════════════
-       RESPONSIVE
-    ══════════════════════════════════════════ */
-    @media (max-width: 768px) {
-      .nav-links, .nav-ip { display: none; }
-      .hamburger { display: flex; }
-
-      .gallery-grid { grid-template-columns: repeat(2, 1fr); }
-
-      footer { grid-template-columns: 1fr; }
-      .footer-links { justify-content: flex-start; }
-    }
-    @media (max-width: 480px) {
-      .gallery-grid { grid-template-columns: 1fr; }
-      .hero-stats   { gap: 1.5rem; }
-    }
-
-    /* scroll reveal */
-    .reveal {
-      opacity: 0; transform: translateY(32px);
-      transition: opacity .6s ease, transform .6s ease;
-    }
-    .reveal.visible { opacity: 1; transform: none; }
-  </style>
 </head>
 <body>
 
-<!-- ── CANVAS ── -->
-<canvas id="stars-canvas"></canvas>
+<div class="overlay"></div>
 
-<!-- ── TOAST ── -->
-<div class="toast" id="toast">📋 آدرس کپی شد!</div>
+<div class="box">
+    <h1> خرید رنک </h1>
 
-<!-- ══════════════════════════════════════════
-     NAV
-══════════════════════════════════════════ -->
-<nav>
-  <div class="nav-logo">Shet<span>Warp</span></div>
-  <ul class="nav-links">
-    <li><a href="#features">ویژگی‌ها</a></li>
-    <li><a href="#shop">شاپ</a></li>
-    <li><a href="#join">اتصال</a></li>
-    <li><a href="#gallery">گالری</a></li>
-  </ul>
-  <div class="nav-ip" onclick="copyIP()">shetwarp.dpdns.org</div>
-  <div class="hamburger" onclick="toggleMenu()" id="ham">
-    <span></span><span></span><span></span>
-  </div>
-</nav>
+    <p>
+        برای خرید رنک، در یکی از راه‌های ارتباطی زیر به ما پیام دهید.
+    </p>
 
-<div class="mobile-menu" id="mobileMenu">
-  <a href="#features" onclick="closeMenu()">ویژگی‌ها</a>
-  <a href="#shop"     onclick="closeMenu()">شاپ</a>
-  <a href="#join"     onclick="closeMenu()">اتصال</a>
-  <a href="#gallery"  onclick="closeMenu()">گالری</a>
+    <div class="buttons">
+
+        <a class="btn discord" href="https://discord.gg/QYJBPEzb2">
+            <i class="fab fa-discord"></i>
+            دیسکورد
+        </a>
+
+        <a class="btn telegram" href="https://t.me/blockbazar1">
+            <i class="fab fa-telegram"></i>
+            تلگرام
+        </a>
+
+        <a class="btn rubika" href="https://web.rubika.ir/#c=c0DxKQX0527fda3c55cb8e136f62cd97">
+            <i class="fas fa-comment-dots"></i>
+            روبیکا
+        </a>
+
+    </div>
+
 </div>
 
-<!-- ══════════════════════════════════════════
-     HERO
-══════════════════════════════════════════ -->
-<section id="hero">
-  <!-- floating blocks injected via JS -->
-
-  <div class="hero-badge">🟢 سرور آنلاین است — بپیوند!</div>
-
-  <h1 class="hero-title">
-    <span class="accent">Shet</span><span class="gold">Warp</span>
-  </h1>
-
-  <p class="hero-sub">
-    تجربه ماینکرفت فارسی را متفاوت کشف کن — دنیایی پر از ماجراجویی، رقابت و دوستی برات منتظره.
-  </p>
-
-  <div class="hero-ip-box">
-    <input readonly value="play.shetwarp.ir" id="ipInput"/>
-    <button onclick="copyIP()">📋 کپی</button>
-  </div>
-
-  <div class="hero-ctas">
-    <a href="#shop" class="btn btn-primary">🛒 خرید رنک</a>
-    <a href="#join" class="btn btn-outline">🎮 نحوه ورود</a>
-  </div>
-
-  <div class="hero-stats">
-    <div class="stat">
-      <div class="stat-val" id="onlinePlayers">—</div>
-      <div class="stat-label">بازیکن آنلاین</div>
-    </div>
-    <div class="stat">
-      <div class="stat-val">500+</div>
-      <div class="stat-label">کل اعضا</div>
-    </div>
-    <div class="stat">
-      <div class="stat-val">24/7</div>
-      <div class="stat-label">آپتایم</div>
-    </div>
-    <div class="stat">
-      <div class="stat-val">1.20</div>
-      <div class="stat-label">نسخه</div>
-    </div>
-  </div>
-</section>
-
-<div class="divider"></div>
-
-<!-- ══════════════════════════════════════════
-     FEATURES
-══════════════════════════════════════════ -->
-<section id="features">
-  <div class="reveal">
-    <span class="section-tag">⚡ چرا ShetWarp</span>
-    <h2 class="section-title">یه سرور <span class="g">متفاوت</span></h2>
-    <p class="section-sub">از پینگ پایین تا گیم‌پلی بی‌نظیر — همه چیز برای تجربه بهتر طراحی شده.</p>
-  </div>
-
-  <div class="features-grid reveal">
-    <div class="feature-card">
-      <span class="feature-icon">⚔️</span>
-      <div class="feature-title">PvP حرفه‌ای</div>
-      <p class="feature-desc">سیستم مبارزه بالانس‌شده با آرنای اختصاصی و تورنمنت‌های هفتگی.</p>
-    </div>
-    <div class="feature-card">
-      <span class="feature-icon">🏘️</span>
-      <div class="feature-title">SkyBlock</div>
-      <p class="feature-desc">جزیره‌ات رو از صفر بساز، آپگرید کن و با بقیه رقابت کن.</p>
-    </div>
-    <div class="feature-card">
-      <span class="feature-icon">🏰</span>
-      <div class="feature-title">Survival Plus</div>
-      <p class="feature-desc">ساروایوال ترکیبی با پلاگین‌های منحصربه‌فرد و اقتصاد پیشرفته.</p>
-    </div>
-    <div class="feature-card">
-      <span class="feature-icon">💰</span>
-      <div class="feature-title">اقتصاد واقعی</div>
-      <p class="feature-desc">شاپ بازیکنان، مزایده و سیستم پول برای معاملات در دنیای بازی.</p>
-    </div>
-    <div class="feature-card">
-      <span class="feature-icon">🛡️</span>
-      <div class="feature-title">آنتی‌چیت قوی</div>
-      <p class="feature-desc">بازی عادلانه با سیستم ضدتقلب پیشرفته و ادمین‌های ۲۴/۷.</p>
-    </div>
-    <div class="feature-card">
-      <span class="feature-icon">📱</span>
-      <div class="feature-title">پشتیبانی Bedrock</div>
-      <p class="feature-desc">فعلا نمیتونیم اما بعدا حتما بدراک هم پشتیبانی میکنیم</p>
-    </div>
-    <div class="feature-card">
-      <span class="feature-icon">🎁</span>
-      <div class="feature-title">رویدادهای روزانه</div>
-      <p class="feature-desc">ایونت‌های روزانه با جوایز ویژه، کی‌استروپ و مسابقات هفتگی.</p>
-    </div>
-    <div class="feature-card">
-      <span class="feature-icon">🌐</span>
-      <div class="feature-title">پینگ پایین</div>
-      <p class="feature-desc">سرور ایرانی با ۲۰ میلی‌ثانیه پینگ برای بهترین تجربه بازی.</p>
-    </div>
-  </div>
-</section>
-
-<div class="divider"></div>
-
-<!-- ══════════════════════════════════════════
-     SHOP
-══════════════════════════════════════════ -->
-<section id="shop">
-  <div class="reveal">
-    <span class="section-tag">🛒 فروشگاه</span>
-    <h2 class="section-title">خرید <span class="g">رنک</span></h2>
-    <p class="section-sub">با خرید رنک از سرور حمایت کن و امتیازات ویژه دریافت کن.</p>
-  </div>
-
-  <div class="shop-grid reveal">
-
-    <div class="rank-card bronze">
-      <span class="rank-emoji">⭐</span>
-      <div class="rank-name">BRONZE</div>
-      <div class="rank-price"><sup>تومان </sup>29,000</div>
-      <div class="rank-price-sub">یک‌ماهه</div>
-      <ul class="rank-perks">
-        <li>کیت ویژه</li>
-        <li>/craft</li>
-        <li>پشتیبانی گرفتن شغل ویژه</li>
-        <li>رنگ اسم اختصاصی</li>
-      </ul>
-     <button class="rank-btn" onclick="window.location.href='https://reymit.ir/bleusunn'">
-    خرید Bronze
-</button>
-    </div>
-    <div class="rank-card silver">
-      <span class="rank-emoji">🔩</span>
-      <div class="rank-name">SILVER</div>
-      <div class="rank-price"><sup>تومان </sup>59,000</div>
-      <div class="rank-price-sub">یک‌ماهه</div>
-      <ul class="rank-perks">
-        <li>همه مزایای Bronze</li>
-        <li>کیت ویژه</li>
-        <li>/nick — تغییر نام موقت</li>
-        <li>نام ویژه در تب</li>
-        <li>گرفتن 1 ماشین اختصاصی</li>
-      </ul>
-      <button class="rank-btn" onclick="window.location.href='https://reymit.ir/bleusunn'">
-    خرید Silver
-</button>
-    </div>
-
-    <div class="rank-card gold popular">
-      <span class="popular-badge">⭐ محبوب</span>
-      <span class="rank-emoji">🏆</span>
-      <div class="rank-name">GOLD</div>
-      <div class="rank-price"><sup>تومان </sup>99,000</div>
-      <div class="rank-price-sub">یک‌ماهه</div>
-      <ul class="rank-perks">
-        <li>همه مزایای Silver</li>
-        <li>کیت ویژه</li>
-        <li>پشتیبانی فوق العاده</li>
-        <li>رنک ویژه در تب</li>
-        <li>/tpa</li>
-      </ul>
-      <button class="rank-btn" onclick="window.location.href='https://reymit.ir/bleusunn'">
-    خرید Gold
-</button>
-    </div>
-
-    <div class="rank-card diamond">
-      <span class="rank-emoji">💎</span>
-      <div class="rank-name">DIAMOND</div>
-      <div class="rank-price"><sup>تومان </sup>149,000</div>
-      <div class="rank-price-sub">یک‌ماهه</div>
-      <ul class="rank-perks">
-        <li>همه مزایای Gold</li>
-        <li>/tpahere</li>
-        <li>تایتل اختصاصی</li>
-        <li>دسترسی زودتر به ایونت‌ها</li>
-        <li>دسترسی به 3 ماشین</li>
-        <li>لاگین بدون صف</li>
-      </ul>
-      <button class="rank-btn" onclick="window.location.href='https://reymit.ir/bleusunn'">
-    خرید Diamond
-</button>
-
-    </div>
-
-    <div class="rank-card vip">
-      <span class="rank-emoji">👑</span>
-      <div class="rank-name">VIP</div>
-      <div class="rank-price"><sup>تومان </sup>200,000</div>
-      <div class="rank-price-sub">یک‌ماهه</div>
-      <ul class="rank-perks">
-        <li>همه مزایای Diamond</li>
-        <li>دسترسی به تمام پلاگین‌ها</li>
-        <li>اتاق خصوصی در لابی</li>
-        <li>کانال تخصصی در دیسکورد</li>
-        <li>پشتیبانی اولویت‌دار</li>
-        <li>کیت ویژه</li>
-      </ul>
-      <button class="rank-btn" onclick="window.location.href='https://reymit.ir/bleusunn'">
-    خرید VIP
-</button>
-    </div>
-
-  </div>
-</section>
-
-<div class="divider"></div>
-
-<!-- ══════════════════════════════════════════
-     JOIN
-══════════════════════════════════════════ -->
-<section id="join">
-  <div class="reveal">
-    <span class="section-tag">🎮 نحوه ورود</span>
-    <h2 class="section-title">چطور <span class="g">وارد بشم؟</span></h2>
-    <p class="section-sub">در ۳ قدم ساده به سرور وصل شو و ماجراجویی رو شروع کن.</p>
-  </div>
-
-  <div class="steps reveal">
-    <div class="step">
-      <div class="step-num">۱</div>
-      <div class="step-title">ماینکرفت رو باز کن</div>
-      <p class="step-desc">فقط روی ماینکرفت کلیک کن همین</p>
-    </div>
-    <div class="step">
-      <div class="step-num">۲</div>
-      <div class="step-title">به سرور وصل شو</div>
-      <p class="step-desc">گزینه Multiplayer رو بزن، Add Server رو انتخاب کن و آدرس رو وارد کن.</p>
-    </div>
-    <div class="step">
-      <div class="step-num">۳</div>
-      <div class="step-title">بازی کن!</div>
-      <p class="step-desc">بعد از ورود، راهنمای شروع بازی بهت نشون داده میشه. از ماجراجویی لذت ببر!</p>
-    </div>
-  </div>
-
-  <div class="connect-box reveal">
-    <div>
-      <div class="label">آدرس سرور:</div>
-      <div class="ip">shetwarp.dpdns.org</div>
-    </div>
-    <div>
-      <div class="label">پورت Java:</div>
-      <div class="ip">-</div>
-    </div>
-    <div>
-      <div class="label">پورت Bedrock:</div>
-      <div class="ip">هنوز ساخته نشده</div>
-    </div>
-    <button class="copy-btn" id="copyBtn" onclick="copyIP()">📋 کپی آدرس</button>
-  </div>
-</section>
-
-<div class="divider"></div>
-
-<!-- ══════════════════════════════════════════
-     GALLERY
-══════════════════════════════════════════ -->
-<section id="gallery">
-  <div class="reveal">
-    <span class="section-tag">📸 گالری</span>
-    <h2 class="section-title">تصاویر <span class="g">سرور</span></h2>
-    <p class="section-sub">یه نگاه به دنیای ShetWarp بنداز قبل از اینکه وارد بشی.</p>
-  </div>
-
-  <div class="gallery-grid reveal">
-    <div class="gallery-item" style="background:linear-gradient(135deg,#0f2d1a,#1a4a2a)">
-      <div class="overlay"></div>
-      🏰
-    </div>
-    <div class="gallery-item" style="background:linear-gradient(135deg,#1a1a2e,#16213e)">
-      <div class="overlay"></div>
-      ⚔️
-    </div>
-    <div class="gallery-item" style="background:linear-gradient(135deg,#2d1b00,#4a2d00)">
-      <div class="overlay"></div>
-      🌅
-    </div>
-    <div class="gallery-item" style="background:linear-gradient(135deg,#0d1f33,#1a3a5c)">
-      <div class="overlay"></div>
-      🌊
-    </div>
-    <div class="gallery-item" style="background:linear-gradient(135deg,#2d0d0d,#4a1a1a)">
-      <div class="overlay"></div>
-      🐉
-    </div>
-    <div class="gallery-item" style="background:linear-gradient(135deg,#1a2d00,#2a4a00)">
-      <div class="overlay"></div>
-      🌲
-    </div>
-  </div>
-</section>
-
-<!-- ══════════════════════════════════════════
-     FOOTER
-══════════════════════════════════════════ -->
-<footer>
-  <div class="footer-brand">
-    <div class="nav-logo">Shet<span style="color:var(--gold)">Warp</span></div>
-    <p class="footer-desc">بهترین سرور رول پلی ماینکرفت فارسی با جامعه‌ای پویا و گیم‌پلی منحصربه‌فرد.</p>
-  </div>
-  <div class="footer-links">
-    <a href="#features">ویژگی‌ها</a>
-    <a href="#shop">شاپ</a>
-    <a href="#join">اتصال</a>
-    <a href="#">دیسکورد</a>
-    <a href="#">قوانین</a>
-  </div>
-</footer>
-<div class="footer-bottom">
-  © 2025 ShetWarp — تمامی حقوق محفوظ است.
-</div>
-
-<!-- ══════════════════════════════════════════
-     SCRIPTS
-══════════════════════════════════════════ -->
-<script>
-/* ── STARS / PARTICLES ── */
-(function(){
-  const c = document.getElementById('stars-canvas');
-  const ctx = c.getContext('2d');
-  let W,H,stars=[];
-
-  function resize(){
-    W = c.width  = window.innerWidth;
-    H = c.height = window.innerHeight;
-  }
-
-  function mkStar(){
-    return {
-      x: Math.random()*W,
-      y: Math.random()*H,
-      r: Math.random()*1.4+.2,
-      a: Math.random(),
-      da: (Math.random()*.006+.002)*(Math.random()<.5?1:-1)
-    };
-  }
-
-  function init(){
-    resize();
-    stars = Array.from({length:160}, mkStar);
-  }
-
-  function draw(){
-    ctx.clearRect(0,0,W,H);
-    stars.forEach(s=>{
-      s.a += s.da;
-      if(s.a<=0||s.a>=1) s.da*=-1;
-      ctx.beginPath();
-      ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
-      ctx.fillStyle = `rgba(74,222,128,${s.a*.7})`;
-      ctx.fill();
-    });
-    requestAnimationFrame(draw);
-  }
-
-  window.addEventListener('resize', resize);
-  init(); draw();
-})();
-
-/* ── FLOATING BLOCKS ── */
-(function(){
-  const emojis = ['🪨','🌿','💎','🟫','🟩','⛏️','🌲','🏔️'];
-  const hero = document.getElementById('hero');
-  function spawnBlock(){
-    const el = document.createElement('div');
-    el.className = 'block-float';
-    el.textContent = emojis[Math.floor(Math.random()*emojis.length)];
-    el.style.cssText = `
-      left:${Math.random()*100}%;
-      bottom:-60px;
-      font-size:${24+Math.random()*24}px;
-      animation-duration:${8+Math.random()*12}s;
-      animation-delay:${Math.random()*4}s;
-    `;
-    hero.appendChild(el);
-    el.addEventListener('animationend',()=>el.remove());
-  }
-  spawnBlock();
-  setInterval(spawnBlock, 1800);
-})();
-
-/* ── COPY IP ── */
-function copyIP(){
-  navigator.clipboard.writeText('shetwarp.dpdns.org').then(()=>{
-    showToast('📋 آدرس کپی شد!');
-    const btn = document.getElementById('copyBtn');
-    if(btn){ btn.textContent='✅ کپی شد!'; btn.classList.add('copied'); setTimeout(()=>{ btn.textContent='📋 کپی آدرس'; btn.classList.remove('copied'); },2000); }
-  });
-}
-
-/* ── TOAST ── */
-function showToast(msg){
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.classList.add('show');
-  setTimeout(()=>t.classList.remove('show'), 2400);
-}
-
-/* ── BUY RANK ── */
-function buyRank(rank){
-  showToast('🛒 در حال انتقال به درگاه خرید '+rank+'...');
-}
-
-/* ── MOBILE MENU ── */
-function toggleMenu(){
-  const m = document.getElementById('mobileMenu');
-  m.classList.toggle('open');
-}
-function closeMenu(){
-  document.getElementById('mobileMenu').classList.remove('open');
-}
-
-/* ── SCROLL REVEAL ── */
-(function(){
-  const els = document.querySelectorAll('.reveal');
-  const io = new IntersectionObserver(entries=>{
-    entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('visible'); io.unobserve(e.target); } });
-  },{ threshold:.12 });
-  els.forEach(el=>io.observe(el));
-})();
-
-
-</script>
 </body>
 </html>
