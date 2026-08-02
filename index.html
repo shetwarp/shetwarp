@@ -3,128 +3,195 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>خرید رنک</title>
-
-<!-- Font Awesome -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/rastikerdar/vazir-font@v33.003/dist/font-face.css">
-
-<style>
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family: Vazir, sans-serif;
-}
-
-body{
-    background:url("1 (104).png") center center/cover no-repeat fixed;
-    height:100vh;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-}
-
-.overlay{
-    position:fixed;
-    inset:0;
-    background:rgba(0,0,0,.65);
-}
-
-.box{
-    position:relative;
-    z-index:2;
-    text-align:center;
-    color:#fff;
-    background:rgba(0,0,0,.45);
-    backdrop-filter:blur(8px);
-    padding:50px;
-    border-radius:20px;
-    width:90%;
-    max-width:600px;
-}
-
-h1{
-    font-size:38px;
-    margin-bottom:15px;
-}
-
-p{
-    font-size:20px;
-    margin-bottom:35px;
-    line-height:1.8;
-}
-
-.buttons{
-    display:flex;
-    justify-content:center;
-    gap:20px;
-    flex-wrap:wrap;
-}
-
-.btn{
-    text-decoration:none;
-    color:#fff;
-    padding:15px 28px;
-    border-radius:12px;
-    font-size:20px;
-    transition:.3s;
-    display:flex;
-    align-items:center;
-    gap:10px;
-    font-weight:bold;
-}
-
-.discord{
-    background:#5865F2;
-}
-
-.telegram{
-    background:#229ED9;
-}
-
-.rubika{
-    background:#E53935;
-}
-
-.btn:hover{
-    transform:translateY(-5px) scale(1.05);
-    box-shadow:0 0 20px rgba(255,255,255,.4);
-}
-</style>
-
+<title>shetwarp — سرور ماینکرفت</title>
+<meta name="description" content="خرید رنک و پشتیبانی تیکت برای سرور ماینکرفت shetwarp">
+<link rel="stylesheet" href="css/style.css">
 </head>
-<body>
+<body data-page="index">
+<div id="nav-root"></div>
 
-<div class="overlay"></div>
-
-<div class="box">
-    <h1> خرید رنک </h1>
-
-    <p>
-        برای خرید رنک، در یکی از راه‌های ارتباطی زیر به ما پیام دهید.
-    </p>
-
-    <div class="buttons">
-
-        <a class="btn discord" href="https://discord.gg/QYJBPEzb2">
-            <i class="fab fa-discord"></i>
-            دیسکورد
-        </a>
-
-        <a class="btn telegram" href="https://t.me/blockbazar1">
-            <i class="fab fa-telegram"></i>
-            تلگرام
-        </a>
-
-        <a class="btn rubika" href="https://web.rubika.ir/#c=c0DxKQX0527fda3c55cb8e136f62cd97">
-            <i class="fas fa-comment-dots"></i>
-            روبیکا
-        </a>
-
+<main>
+  <section class="hero">
+    <div class="container hero-inner">
+      <div>
+        <span class="eyebrow">سرور ماینکرفت shetwarp</span>
+        <h1>یک درگاه به دنیای<br><span class="accent">shetwarp</span> باز کن</h1>
+        <p>وارد شو، رنکت رو انتخاب کن و با امکانات ویژه، تجربه‌ی بازی رو برای خودت متفاوت کن. خرید امن، فعال‌سازی آنی، پشتیبانی همیشه در دسترس.</p>
+        <div class="hero-actions">
+          <a href="#ranks" class="btn btn-primary">مشاهده رنک‌ها</a>
+          <a href="tickets.html" class="btn btn-ghost">ثبت تیکت پشتیبانی</a>
+        </div>
+        <div class="hero-stats">
+          <div class="hero-stat"><b>+3</b><span>مینی گیم</span></div>
+          <div class="hero-stat"><b>24/7</b><span>آنلاین بودن سرور</span></div>
+          <div class="hero-stat"><b>سریع</b><span>پشتیبانی</span></div>
+        </div>
+      </div>
+      <div class="gate-wrap">
+        <div class="gate">
+          <div class="gate-ring"></div>
+          <div class="gate-ring r2"></div>
+          <div class="gate-ring r3"></div>
+          <div class="gate-core"></div>
+        </div>
+      </div>
     </div>
+  </section>
 
+  <section class="section" id="ranks">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">فروشگاه رنک</span>
+        <h2>رنکت رو انتخاب کن</h2>
+        <p>هر سطح، دروازه‌ی تازه‌ای به امکانات سرور باز می‌کنه. فعال‌سازی فوری روی اکانت ماینکرفتت.</p>
+      </div>
+
+      <div class="ranks-grid">
+
+        <article class="rank-card tier-vip">
+          <span class="rank-tier-num">I</span>
+          <span class="rank-badge">VIP</span>
+          <h3 class="rank-name">VIP</h3>
+          <p class="rank-tagline">برای شروع قوی‌تر در سرور</p>
+          <div class="rank-price"><b>49,000</b><span>تومان / یک ماه</span></div>
+          <ul class="rank-features">
+            <li><svg width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M3 7.5L6 10.5L12 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg> تگ رنگی <code>[VIP]</code> کنار نام در چت</li>
+            <li><svg width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M3 7.5L6 10.5L12 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg> دسترسی به کیت اختصاصی <code>/kit vip</code></li>
+            <li><svg width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M3 7.5L6 10.5L12 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg> توانایی عوض کردن اسم در تب<code></code></li>
+    
+          </ul>
+          <a href="https://reymit.ir/bleusunn">
+          
+          <button class="btn-tier btn-tier-vip" data-buy="vip">خرید VIP</button>
+          </a>
+        </article>
+
+        <article class="rank-card tier-mvp">
+          <span class="rank-tier-num">II</span>
+          <span class="rank-badge">MVP</span>
+          <h3 class="rank-name">MVP</h3>
+          <p class="rank-tagline">تعادل بین قدرت و قیمت</p>
+          <div class="rank-price"><b>99,000</b><span>تومان / یکماه</span></div>
+          <ul class="rank-features">
+            <li><svg width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M3 7.5L6 10.5L12 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg> همه‌ی امکانات رنک VIP</li>
+            <li><svg width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M3 7.5L6 10.5L12 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg> تگ اختصاصی <code>[MVP]</code> با رنگ ویژه</li>
+            <li><svg width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M3 7.5L6 10.5L12 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg> دسترسی به <code>/fly</code> در مناطق مجاز</li>
+            <li><svg width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M3 7.5L6 10.5L12 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>کیت اختصاصی<code>/kit</code></li>
+            <li><svg width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M3 7.5L6 10.5L12 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg> اولویت در صف ورود به سرور</li>
+          </ul><a href="https://reymit.ir/bleusunn">
+          <button class="btn-tier btn-tier-mvp" data-buy="mvp">خرید MVP</button>
+          </a>
+        </article>
+
+        <article class="rank-card tier-elite">
+          <span class="rank-tier-num">III</span>
+          <span class="rank-badge">ELITE</span>
+          <h3 class="rank-name">Elite</h3>
+          <p class="rank-tagline">بالاترین سطح دسترسی سرور</p>
+          <div class="rank-price"><b>199,000</b><span>تومان / یک ماه</span></div>
+          <ul class="rank-features">
+            <li><svg width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M3 7.5L6 10.5L12 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg> همه‌ی امکانات رنک MVP</li>
+            <li><svg width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M3 7.5L6 10.5L12 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg> تگ متحرک <code>[ELITE]</code> در چت</li>
+            <li><svg width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M3 7.5L6 10.5L12 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>      در مناطق مجاز <code>/fly</code></li>
+            <li><svg width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M3 7.5L6 10.5L12 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>دو برابر شدن درامد پارکور<code>/parkour</code></li>
+            <li><svg width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M3 7.5L6 10.5L12 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>اولویت در صف ورود به سرور</li>
+            <li><svg width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M3 7.5L6 10.5L12 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg> پشتیبانی اختصاصی و اولویت‌دار در تیکت</li>
+          </ul>
+          <a href="https://reymit.ir/bleusunn">
+          
+          <button class="btn-tier btn-tier-elite" data-buy="elite">خرید Elite</button>
+          </a>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">چرا shetwarp</span>
+        <h2>یک سرور، برای سرگرمی</h2>
+        <p>هر بخش از سرور طوری طراحی شده که تجربه‌ای جذاب و تکرار نشدنی برای همه بازیکن‌ها بسازه.</p>
+      </div>
+      <div class="feat-grid">
+        <div class="feat-card">
+          <div class="feat-icon"><svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M11 2.5L18.5 5.5V10.5C18.5 15 15.5 18 11 19.5C6.5 18 3.5 15 3.5 10.5V5.5L11 2.5Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M8 11L10.2 13.2L14.5 8.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <h3>خرید امن</h3>
+          <p>هر سفارش با درگاه پرداخت معتبر پردازش می‌شه و رنک بلافاصله بعد از تایید پرداخت روی اکانتت فعال میشه.</p>
+        </div>
+        <div class="feat-card">
+          <div class="feat-icon"><svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M12.5 2.5L4.5 12.5H10.5L9.5 19.5L17.5 9.5H11.5L12.5 2.5Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg></div>
+          <h3>فعال‌سازی آنی</h3>
+          <p>نیازی به منتظر موندن نیست؛ رنک خریداری‌شده بلافاصله بعد از پرداخت روی یوزرنیم ماینکرفتت اعمال می‌شه.</p>
+        </div>
+        <div class="feat-card">
+          <div class="feat-icon"><svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M4 12V10.5C4 6.36 7.36 3 11.5 3C15.64 3 19 6.36 19 10.5V12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><rect x="3" y="12" width="4" height="6" rx="1.5" stroke="currentColor" stroke-width="1.5"/><rect x="16" y="12" width="4" height="6" rx="1.5" stroke="currentColor" stroke-width="1.5"/><path d="M19 18V19C19 20.1 18.1 21 17 21H13.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+          <h3>پشتیبانی سریع</h3>
+          <p>برای هر مشکل یا سوالی، از داشبورد خودت تیکت باز کن؛ تیم پشتیبانی سرور در سریع‌ترین زمان جواب می‌ده.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<div id="footer-root"></div>
+
+<!-- checkout modal -->
+<div class="modal-overlay" id="buy-modal">
+  <div class="modal">
+    <h3 id="buy-modal-title">تکمیل خرید رنک</h3>
+    <p id="buy-modal-sub">در حال اتصال به درگاه پرداخت...</p>
+    <div class="field">
+      <label>مبلغ قابل پرداخت</label>
+      <input type="text" id="buy-modal-price" disabled>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost btn-block" id="buy-modal-cancel">انصراف</button>
+      <button class="btn btn-primary btn-block" id="buy-modal-confirm">پرداخت و فعال‌سازی</button>
+    </div>
+  </div>
 </div>
 
+<script src="js/app.js"></script>
+<script>
+  document.querySelectorAll('[data-buy]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const rankKey = btn.dataset.buy;
+      const user = swCurrentUser();
+      if(!user){
+        swToast('برای خرید رنک ابتدا وارد حساب کاربری شو');
+        setTimeout(() => window.location.href = 'login.html', 700);
+        return;
+      }
+      const rank = RANKS[rankKey];
+      document.getElementById('buy-modal-title').textContent = 'خرید رنک ' + rank.name;
+      document.getElementById('buy-modal-sub').textContent = 'برای اکانت ماینکرفت «' + user.mcname + '» — بعد از تایید پرداخت، رنک بلافاصله فعال می‌شود.';
+      document.getElementById('buy-modal-price').value = swFormatToman(rank.price);
+      const modal = document.getElementById('buy-modal');
+      modal.classList.add('show');
+      modal.dataset.rank = rankKey;
+    });
+  });
+
+  document.getElementById('buy-modal-cancel').addEventListener('click', () => {
+    document.getElementById('buy-modal').classList.remove('show');
+  });
+
+  document.getElementById('buy-modal-confirm').addEventListener('click', () => {
+    const modal = document.getElementById('buy-modal');
+    const rankKey = modal.dataset.rank;
+    // BACKEND: redirect to the real payment gateway here instead of resolving locally.
+    const res = swCreateOrder(rankKey);
+    if(res.ok){
+      swUpdateUserRank(rankKey);
+      modal.classList.remove('show');
+      swToast('رنک ' + RANKS[rankKey].name + ' با موفقیت فعال شد');
+      setTimeout(() => window.location.href = 'dashboard.html', 700);
+    } else {
+      swToast(res.error, 'error');
+    }
+  });
+</script>
 </body>
 </html>
