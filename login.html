@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ورود — shetwarp</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body data-page="login">
+
+<div class="auth-shell">
+  <div class="auth-card">
+    <a href="index.html" class="brand"><span id="logo-slot"></span><span>shetwarp</span></a>
+    <h1>ورود به حساب کاربری</h1>
+    <p class="auth-sub">برای خرید رنک و ثبت تیکت وارد شو</p>
+
+    <div class="alert alert-error" id="form-alert"></div>
+
+    <form id="login-form" novalidate>
+      <div class="field" id="f-identifier">
+        <label for="identifier">نام کاربری یا ایمیل</label>
+        <input type="text" id="identifier" autocomplete="username" placeholder="مثلاً shetwarp_player">
+        <div class="field-error">این فیلد الزامی است</div>
+      </div>
+      <div class="field" id="f-password">
+        <label for="password">رمز عبور</label>
+        <input type="password" id="password" autocomplete="current-password" placeholder="رمز عبورت را وارد کن">
+        <div class="field-error">رمز عبور را وارد کن</div>
+      </div>
+      <button type="submit" class="btn btn-primary btn-block">ورود</button>
+    </form>
+
+    <div class="auth-foot">حساب نداری؟ <a href="register.html">ثبت‌نام کن</a></div>
+  </div>
+</div>
+
+<script src="js/app.js"></script>
+<script>
+  document.getElementById('logo-slot').outerHTML = SW_LOGO_SVG;
+
+  const form = document.getElementById('login-form');
+  const alertBox = document.getElementById('form-alert');
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    alertBox.classList.remove('show');
+    let valid = true;
+
+    const identifier = document.getElementById('identifier');
+    const password = document.getElementById('password');
+    [identifier, password].forEach(input => input.closest('.field').classList.remove('invalid'));
+
+    if(!identifier.value.trim()){ identifier.closest('.field').classList.add('invalid'); valid = false; }
+    if(!password.value){ password.closest('.field').classList.add('invalid'); valid = false; }
+    if(!valid) return;
+
+    const res = swLogin({ identifier: identifier.value.trim(), password: password.value });
+    if(!res.ok){
+      alertBox.textContent = res.error;
+      alertBox.classList.add('show');
+      return;
+    }
+    swToast('خوش اومدی ' + res.user.username);
+    setTimeout(() => window.location.href = 'dashboard.html', 500);
+  });
+</script>
+</body>
+</html>

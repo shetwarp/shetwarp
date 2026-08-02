@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ثبت‌نام — shetwarp</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body data-page="register">
+
+<div class="auth-shell">
+  <div class="auth-card">
+    <a href="index.html" class="brand"><span id="logo-slot"></span><span>shetwarp</span></a>
+    <h1>ساخت حساب کاربری</h1>
+    <p class="auth-sub">برای خرید رنک و ثبت تیکت، حساب بساز</p>
+
+    <div class="alert alert-error" id="form-alert"></div>
+
+    <form id="register-form" novalidate>
+      <div class="field" id="f-username">
+        <label for="username">نام کاربری سایت</label>
+        <input type="text" id="username" autocomplete="username" placeholder="مثلاً shetwarp_player">
+        <div class="field-error">نام کاربری باید حداقل ۳ کاراکتر باشد</div>
+      </div>
+      <div class="field" id="f-mcname">
+        <label for="mcname">یوزرنیم دقیق ماینکرفت</label>
+        <input type="text" id="mcname" placeholder="یوزرنیمی که در بازی استفاده می‌کنی">
+        <div class="field-error">یوزرنیم ماینکرفت را وارد کن</div>
+      </div>
+      <div class="field" id="f-email">
+        <label for="email">ایمیل</label>
+        <input type="email" id="email" autocomplete="email" placeholder="example@mail.com">
+        <div class="field-error">ایمیل معتبر وارد کن</div>
+      </div>
+      <div class="field" id="f-password">
+        <label for="password">رمز عبور</label>
+        <input type="password" id="password" autocomplete="new-password" placeholder="حداقل ۶ کاراکتر">
+        <div class="field-error">رمز عبور باید حداقل ۶ کاراکتر باشد</div>
+      </div>
+      <div class="field" id="f-confirm">
+        <label for="confirm">تکرار رمز عبور</label>
+        <input type="password" id="confirm" autocomplete="new-password" placeholder="رمز عبور را دوباره وارد کن">
+        <div class="field-error">رمزهای عبور مطابقت ندارند</div>
+      </div>
+      <button type="submit" class="btn btn-primary btn-block">ساخت حساب</button>
+    </form>
+
+    <div class="auth-foot">قبلاً حساب ساختی؟ <a href="login.html">وارد شو</a></div>
+  </div>
+</div>
+
+<script src="js/app.js"></script>
+<script>
+  document.getElementById('logo-slot').outerHTML = SW_LOGO_SVG;
+
+  const form = document.getElementById('register-form');
+  const alertBox = document.getElementById('form-alert');
+  const fields = ['username','mcname','email','password','confirm'].map(id => document.getElementById(id));
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    alertBox.classList.remove('show');
+    fields.forEach(f => f.closest('.field').classList.remove('invalid'));
+
+    const [username, mcname, email, password, confirm] = fields;
+    let valid = true;
+
+    if(username.value.trim().length < 3){ username.closest('.field').classList.add('invalid'); valid = false; }
+    if(!mcname.value.trim()){ mcname.closest('.field').classList.add('invalid'); valid = false; }
+    if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value.trim())){ email.closest('.field').classList.add('invalid'); valid = false; }
+    if(password.value.length < 6){ password.closest('.field').classList.add('invalid'); valid = false; }
+    if(confirm.value !== password.value || !confirm.value){ confirm.closest('.field').classList.add('invalid'); valid = false; }
+
+    if(!valid) return;
+
+    const res = swRegister({
+      username: username.value.trim(),
+      mcname: mcname.value.trim(),
+      email: email.value.trim(),
+      password: password.value
+    });
+
+    if(!res.ok){
+      alertBox.textContent = res.error;
+      alertBox.classList.add('show');
+      return;
+    }
+    swToast('حساب کاربری با موفقیت ساخته شد');
+    setTimeout(() => window.location.href = 'dashboard.html', 500);
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>داشبورد — shetwarp</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body data-page="dashboard">
+<div id="nav-root"></div>
+
+<main class="dash-shell">
+  <div class="container">
+    <div class="dash-head">
+      <div class="dash-user">
+        <div class="avatar" id="dash-avatar">--</div>
+        <div>
+          <h2 id="dash-username">—</h2>
+          <span id="dash-mcname">—</span>
+        </div>
+      </div>
+      <button class="btn btn-ghost btn-sm" id="logout-btn">خروج از حساب</button>
+    </div>
+
+    <div class="dash-grid">
+      <div class="stat-card">
+        <span>رنک فعلی</span>
+        <b id="stat-rank">بدون رنک</b>
+      </div>
+      <div class="stat-card">
+        <span>تیکت‌های باز</span>
+        <b id="stat-open-tickets">0</b>
+      </div>
+      <div class="stat-card">
+        <span>مجموع تیکت‌ها</span>
+        <b id="stat-total-tickets">0</b>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-head">
+        <h3>رنک من</h3>
+        <a href="index.html#ranks" class="btn btn-ghost btn-sm">مشاهده / تغییر رنک</a>
+      </div>
+      <div id="rank-panel-body"></div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-head">
+        <h3>آخرین تیکت‌ها</h3>
+        <a href="tickets.html" class="btn btn-primary btn-sm">تیکت جدید</a>
+      </div>
+      <div id="dash-tickets"></div>
+    </div>
+  </div>
+</main>
+
+<div id="footer-root"></div>
+
+<script src="js/app.js"></script>
+<script>
+  const user = swRequireAuth();
+</script>
+<script>
+  if(user){
+    document.getElementById('dash-avatar').textContent = swInitials(user.username);
+    document.getElementById('dash-username').textContent = user.username;
+    document.getElementById('dash-mcname').textContent = 'یوزرنیم ماینکرفت: ' + user.mcname;
+
+    const rankPanel = document.getElementById('rank-panel-body');
+    const statRank = document.getElementById('stat-rank');
+    if(user.rank && RANKS[user.rank]){
+      const r = RANKS[user.rank];
+      statRank.textContent = r.name;
+      rankPanel.innerHTML = `
+        <div class="ticket-row">
+          <div class="ticket-meta">
+            <b>رنک ${r.name} فعال است</b>
+            <span>هزینه پرداخت‌شده: ${swFormatToman(r.price)}</span>
+          </div>
+          <span class="badge badge-open">فعال</span>
+        </div>`;
+    } else {
+      rankPanel.innerHTML = `<div class="empty-state">هنوز رنکی نخریدی. از صفحه‌ی رنک‌ها یکی رو انتخاب کن.</div>`;
+    }
+
+    const tickets = swUserTickets();
+    document.getElementById('stat-total-tickets').textContent = tickets.length;
+    document.getElementById('stat-open-tickets').textContent = tickets.filter(t => t.status !== 'closed').length;
+
+    const dashTickets = document.getElementById('dash-tickets');
+    if(tickets.length === 0){
+      dashTickets.innerHTML = `<div class="empty-state">هنوز تیکتی ثبت نکردی.</div>`;
+    } else {
+      dashTickets.innerHTML = tickets.slice(0, 4).map(t => `
+        <div class="ticket-row">
+          <div class="ticket-meta">
+            <b>${t.subject}</b>
+            <span>${TICKET_CATEGORY_LABEL[t.category] || t.category} · ${t.id}</span>
+          </div>
+          <span class="badge ${TICKET_STATUS_CLASS[t.status]}">${TICKET_STATUS_LABEL[t.status]}</span>
+        </div>
+      `).join('');
+    }
+  }
+
+  document.getElementById('logout-btn').addEventListener('click', swLogout);
+</script>
+</body>
+</html>

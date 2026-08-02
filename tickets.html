@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>تیکت پشتیبانی — shetwarp</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body data-page="tickets">
+<div id="nav-root"></div>
+
+<main class="dash-shell">
+  <div class="container">
+    <div class="section-head" style="margin-bottom:34px;">
+      <span class="eyebrow">پشتیبانی</span>
+      <h2>تیکت پشتیبانی</h2>
+      <p>سوال، مشکل فنی یا مورد خرید رنک داری؟ از همین‌جا برای تیم پشتیبانی سرور تیکت بفرست.</p>
+    </div>
+
+    <div class="ticket-layout">
+      <div class="panel">
+        <div class="panel-head"><h3>ثبت تیکت جدید</h3></div>
+        <div class="alert alert-error" id="ticket-alert"></div>
+        <form id="ticket-form" novalidate>
+          <div class="field" id="f-subject">
+            <label for="subject">موضوع</label>
+            <input type="text" id="subject" placeholder="مثلاً رنکم فعال نشده">
+            <div class="field-error">موضوع تیکت را وارد کن</div>
+          </div>
+          <div class="field" id="f-category">
+            <label for="category">دسته‌بندی</label>
+            <select id="category">
+              <option value="purchase">خرید رنک</option>
+              <option value="technical">مشکل فنی</option>
+              <option value="report">گزارش تخلف</option>
+              <option value="other">سایر</option>
+            </select>
+          </div>
+          <div class="field" id="f-message">
+            <label for="message">توضیحات</label>
+            <textarea id="message" placeholder="جزئیات مشکل یا سوالت رو کامل بنویس"></textarea>
+            <div class="field-error">توضیحات را وارد کن</div>
+          </div>
+          <button type="submit" class="btn btn-primary btn-block">ارسال تیکت</button>
+        </form>
+      </div>
+
+      <div class="panel">
+        <div class="panel-head"><h3>تیکت‌های من</h3></div>
+        <div id="ticket-list"></div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<div id="footer-root"></div>
+
+<script src="js/app.js"></script>
+<script>
+  const user = swRequireAuth();
+</script>
+<script>
+  function renderTicketList(){
+    const list = document.getElementById('ticket-list');
+    const tickets = swUserTickets();
+    if(tickets.length === 0){
+      list.innerHTML = `<div class="empty-state">هنوز تیکتی ثبت نکردی. اولین تیکتت رو از فرم کنار بفرست.</div>`;
+      return;
+    }
+    list.innerHTML = tickets.map(t => `
+      <div class="ticket-row">
+        <div class="ticket-meta">
+          <b>${t.subject}</b>
+          <span>${TICKET_CATEGORY_LABEL[t.category] || t.category} · ${t.id} · ${new Date(t.createdAt).toLocaleDateString('fa-IR')}</span>
+        </div>
+        <span class="badge ${TICKET_STATUS_CLASS[t.status]}">${TICKET_STATUS_LABEL[t.status]}</span>
+      </div>
+    `).join('');
+  }
+
+  if(user) renderTicketList();
+
+  const form = document.getElementById('ticket-form');
+  const alertBox = document.getElementById('ticket-alert');
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    alertBox.classList.remove('show');
+
+    const subject = document.getElementById('subject');
+    const message = document.getElementById('message');
+    const category = document.getElementById('category');
+    [subject, message].forEach(f => f.closest('.field').classList.remove('invalid'));
+
+    let valid = true;
+    if(!subject.value.trim()){ subject.closest('.field').classList.add('invalid'); valid = false; }
+    if(!message.value.trim()){ message.closest('.field').classList.add('invalid'); valid = false; }
+    if(!valid) return;
+
+    const res = swCreateTicket({
+      subject: subject.value.trim(),
+      category: category.value,
+      message: message.value.trim()
+    });
+
+    if(!res.ok){
+      alertBox.textContent = res.error;
+      alertBox.classList.add('show');
+      return;
+    }
+
+    form.reset();
+    swToast('تیکت با موفقیت ثبت شد — کد پیگیری: ' + res.ticket.id);
+    renderTicketList();
+  });
+</script>
+</body>
+</html>
